@@ -1,0 +1,461 @@
+<div class="parent-div-hebergment pt-5 p-3 mt-5 mt-lg-0">
+  <div class="row">
+    <button class="back mb-4" (click)="onBack()"><i class="material-icons"> arrow_back </i></button>
+  </div>
+  <div class="row" *ngIf="getlogement">
+    <div class="col-md-8">
+      <div class="mb-5">
+        <lightgallery [settings]="settings" [onInit]="onInit" class="container_Galerie">
+          <a *ngFor="let item of getlogement.photos; let i = index" className="gallery-item" [attr.href]="environment_host + item" data-aos="fade-right"
+            [ngClass]="{'big': i == 0, 'small_grid': i > 1, 'horizontal': i == 1,  'd-none': i > 3}">
+            <!-- 'pointer_img': i != 3, -->
+            <img className="img-responsive" [src]="environment_host + item" title="TravelByrec"  [ngClass]="{'letest_img': i == 3}"/>
+            <span class="toutes_pages img-responsive" *ngIf="i == 3">
+              <span class="material-icons" style="font-size: 33px;">panorama</span>
+              <br> Afficher toutes <br> les photos
+            </span>
+          </a>
+        </lightgallery>
+      </div>
+      <div class="d-flex justify-content-between pt-3 mb-4">
+        <div>
+          <h1 class="title_logement">{{getlogement.title}}</h1>
+          <p class="sub_desk">{{getlogement.location[0].address}}</p>
+        </div>
+        <div class="float-end"  data-aos="fade-left">
+          <span class="material-icons me-2 icons_rev" (click)="onClickfavorite(getlogement)" [ngClass]="{'active': getlogement.ispreferred == true}">favorite</span>
+          <span class="material-icons icons_rev" data-bs-toggle="modal" data-bs-target="#ShareModal" (click)="onClickShare(getlogement)">share</span>
+        </div>
+      </div>
+      <hr class="add_hr">
+
+      <div>
+        <h3 class="font-s"  data-aos="fade-up">Details du logements</h3>
+        <div class="row row_inputs mb-4 details-logements">
+          <div class="col padd" data-aos="fade-right">
+            <label class="form-control-label">{{getlogement.type}}</label>
+          </div>
+          <div class="title_border border_hight"></div>
+          <div class="col padd lg-d"  data-aos="fade-right">
+            <label class="form-control-label">{{getlogement.bedrooms}} chambres</label>
+          </div>
+          <div class="title_border border_hight"></div>
+          <div class="col padd" data-aos="fade-right">
+            <label class="form-control-label">{{getlogement.beds}} lits</label>
+          </div>
+          <div class="title_border border_hight"></div>
+          <div class="col padd lg-d"  data-aos="fade-right">
+            <label class="form-control-label"><span>{{getlogement.bathrooms}} salles de bain</span></label>
+          </div>
+        </div>
+        <p class="description-logement" data-aos="fade-up">{{getlogement.details_logement}}</p>
+        <input type="checkbox" class="expand-btn">
+        <!-- <span class="cursor-p" data-aos="fade-right"><span class="show_plus">En savoir plus</span><span
+            class="material-icons icon_right">chevron_right</span></span> -->
+      </div>
+
+      <hr class="add_hr">
+
+      <div>
+        <div *ngIf="getlogement.equipements">
+          <h3 class="font-s" data-aos="fade-up">Équipements proposés sur ce logement</h3>
+          <div class="row ligne-h py-3 px-2">
+            <ng-container *ngFor="let equipement of getlogement.equipements">
+              <div class="col-md-4 d-flex align-items-baseline mb-3">
+                    <img mat-card-image [src]="!equipement.icon ?  '../../../../assets/images/default.jpg'  : environment_host + equipement.icon"
+                    alt="TravelByrec Équipements" class="imgs-equipement-service ">
+                  <div class="equipement-service-name">
+                    <span>{{equipement.name}}</span>
+                  </div>
+              </div>
+            </ng-container>
+
+            <!-- <div class="col-md-4" data-aos="fade-right">
+              <span><span class="material-icons icon_equipm">local_parking</span><span>Parking gratuit sur
+                  place</span></span><br>
+              <span><span class="material-icons icon_equipm">restaurant</span><span>Cuisine</span></span><br>
+              <span><span class="material-icons icon_equipm">airplay</span><span>Climatisation centrale</span></span><br>
+            </div>
+            <div class="col-md-4" data-aos="fade-right">
+              <span><span class="material-icons icon_equipm">hvac</span><span>Sèche-linge</span></span><br>
+              <span><span
+                  class="material-icons icon_equipm">local_laundry_service</span><span>Lave-linge</span></span><br>
+              <span><span class="material-icons icon_equipm">tv</span><span>Télévision</span></span><br>
+            </div> -->
+          </div>
+        </div>
+        <div *ngIf="getlogement.services_included.length > 0">
+          <h3 class="font-s" data-aos="fade-up">Services inclus</h3>
+          <div class="row py-3 px-2">
+            <ng-container *ngFor="let service of getlogement.services_included">
+              <div class="col-md-4 d-flex align-items-baseline mb-3">
+                    <img mat-card-image [src]="!service.image ?  '../../../../assets/images/default.jpg'  : environment_host + service.image"
+                    alt="TravelByrec Équipements" class="imgs-equipement-service " [ngClass]="{'change-color-png': service.image}">
+                  <div class="equipement-service-name">
+                    <span>{{service.name}}</span>
+                  </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <hr class="add_hr">
+
+      <div class="row">
+        <h3 class="font-s">Emplacement du logement</h3>
+        <div class="col-md-7 mb-4" data-aos="fade-right">
+          <agm-map style="height: 52vh;" [latitude]="getlogement.location[0].lat" [longitude]="getlogement.location[0].lng"
+            [fullscreenControl]="options.fullscreen" [zoom]="options.zoom" [scrollwheel]="null"
+            [gestureHandling]="'cooperative'"  [styles]="search_globV.styles" [mapTypeControl]="true" #agmMap>
+            <agm-marker [latitude]="getlogement.location[0].lat" [longitude]="getlogement.location[0].lng"
+              [iconUrl]="$any({url: '../../../assets/images/marker_orig.png', scaledSize: { height: 70, width: 70 }} )">
+              <agm-info-window>
+                <strong class="p-2"><b> {{getlogement.location[0].address}}</b> </strong>
+              </agm-info-window>
+            </agm-marker>
+          </agm-map>
+        </div>
+        <div class="col-md-5 mt-5 ps-5" style="font-size: 16px;">
+          <h3 class="mb-3" style="line-height: 20px;color: black;" data-aos="fade-up">{{getlogement.location[0].adress}}</h3>
+          <p class="font-family-s" data-aos="fade-up" *ngIf="getlogement.details_location"><span class="show_plus">Détails
+              d’emplacement:</span><br>{{getlogement.details_location}}</p>
+        </div>
+      </div>
+<!--
+      <hr class="add_hr">
+
+      <div class="mb-5">
+        <h3 class="font-s" data-aos="fade-up">Réglements du logement</h3>
+        <div class="row mb-4 ligne-h">
+          <div class="col-md-6" data-aos="fade-right">
+            <span><span class="material-icons icon_equipm">group</span><span>Nombre maximum d'invités pour la nuit :
+                6</span></span><br>
+            <span><span class="material-icons icon_equipm">smoke_free</span><span>Interdiction de
+                fumer</span></span><br>
+            <span><span class="material-icons icon_equipm">pets</span><span>Animaux acceptés : Jusqu'à 2
+                animaux</span></span><br>
+          </div>
+          <div class="col-md-6" data-aos="fade-right">
+            <span><span class="material-icons icon_equipm">event</span><span>Événements autorisés : anniversaires,
+                réunions famille</span></span><br>
+            <span><span class="material-icons icon_equipm">badge</span><span>Age minimum pour louer : 30
+                ans</span></span><br>
+            <span><span class="material-icons icon_equipm">person_search</span><span>Status: Marié(e)</span></span><br>
+          </div>
+        </div>
+      </div> -->
+
+      <hr class="add_hr">
+
+      <div class="row pt-3 mb-4 align-items-center" *ngIf="getlogement['ratings'].length > 0">
+        <div class="col-md-6 add_widthavis" data-aos="fade-right">
+          <div class="d-flex align-items-end">
+            <span class="material-icons avis">grade</span>
+            <span class="note-avis-grade"><span class="grad-number">{{global_rating}}</span></span>
+            <span class="global-rating">
+              <star-rating
+                [starType]="'svg'"
+                [rating]="global_rating" [disabled]="true">
+              </star-rating>
+            </span>
+          </div>
+          <span class="note_avis"><b> Note des avis </b> <span> (Basée sur {{getlogement['avis']['total']}} avis)</span> </span>
+        </div>
+        <div class="col-md-6" data-aos="fade-up">
+          <div class="p-2 float-lg-end"  *ngIf="getlogement['ratings'].length > 6">
+            <span class="cursor-p" data-bs-toggle="modal" data-bs-target="#avisModal"><span class="show_plus">Voir tout les avis</span><span
+                class="material-icons icon_right">chevron_right</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <ng-container *ngFor="let av of getlogement['ratings']; let i = index">
+        <div class="col-md-4 col-sm-6" data-aos="fade-right" *ngIf="i < 6">
+          <hr class="add_hr">
+          <div class="row">
+            <div class="col-md-6 d-flex align-items-center">
+              <img src="./../../../assets/images/avis.jpg" alt="">
+              <span class="avis_person"><h3 class="mb-1">{{av["fullname"]}}</h3><span>{{ av["date_avis"] | date:'dd/MM/y':'fr-FR'}}</span></span>
+            </div>
+            <div class="col-md-6 d-flex align-items-center add_width">
+                <star-rating
+                  [starType]="'svg'"
+                  [rating]="av['rating']" [disabled]="true">
+                </star-rating>
+            </div>
+            <p class="p_avis">{{av["content_avis"]}}</p>
+          </div>
+        </div>
+        </ng-container>
+      </div>
+
+    </div>
+    <div class="col-md-4">
+      <div class="sticky-top change-tops">
+        <div class="card card_paiement">
+          <div class="card-body p-2 p-lg-3">
+            <span class="somme" data-aos="fade-up">{{convertCurrency(getlogement.price)['price_symbol']}} {{convertCurrency(getlogement.price)['price']}} <span class="par_t"> / nuit</span></span>
+            <div class="float-end grade_top" data-aos="fade-up" *ngIf="getlogement['avis']['total'] > 0">
+              <span class="material-icons grade">grade</span>
+              <span><b>{{global_rating}}</b> <span> - {{getlogement['avis']['total']}} avis</span> </span> <br>
+            </div>
+            <hr class="add_hr">
+            <form [formGroup]="searchForm" style="padding: 0px 12px;">
+              <div class="row">
+                <div class="row row_inputs" data-aos="fade-up">
+                  <!-- <div class="col item_title" id="ARRIVEE1">
+                    <label class="form-control-label"><b>ARRIVEE</b></label>
+                    <input bsDatepicker [bsConfig]="{ isAnimated: true,adaptivePosition: true, dateInputFormat: 'DD/MM/YYYY' }" class="form-control" formControlName="arrivee"
+                      placeholder="Ajouter une date" id="ARRIVEE" [(ngModel)]="search_globV.arrivee_date" autocomplete="off" required>
+                  </div>
+                  <div class="title_border"></div>
+                  <div class="col item_title" id="DEPART1">
+                    <label class="form-control-label"><b>DEPART</b></label>
+                    <input bsDatepicker [bsConfig]="{ isAnimated: true,adaptivePosition: true, dateInputFormat: 'DD/MM/YYYY' }" class="form-control" formControlName="depart"
+                      placeholder="Ajouter une date" id="DEPART" [(ngModel)]="search_globV.depart_date" autocomplete="off" required>
+                  </div>
+                  <br> -->
+                  <mat-form-field appearance="standard" [ngClass]="{'pb-2': searchForm.controls!['arrivee'].hasError('matStartDateInvalid') || searchForm.controls!['depart'].hasError('matEndDateInvalid')}">
+                    <mat-label><b>ARRIVÉE</b> - <b>DÉPART</b> </mat-label>
+                    <mat-date-range-input [formGroup]="searchForm" [rangePicker]="picker">
+                      <input matStartDate formControlName="arrivee" placeholder="ARRIVÉE" [(ngModel)]="search_globV.arrivee_date" (dateChange)="getArriveeDate()" autocomplete="off" required readonly autofocus>
+                      <input matEndDate formControlName="depart" placeholder="DÉPART" [(ngModel)]="search_globV.depart_date" (dateChange)="getDepartDate()" autocomplete="off" required readonly>
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                    <mat-error *ngIf="searchForm.controls!['arrivee'].hasError('matStartDateInvalid')">Date d'arrivée invalide</mat-error>
+                    <mat-error *ngIf="searchForm.controls!['depart'].hasError('matEndDateInvalid')">Date de départ invalide</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="item_title row_inputs" id="VOYAGEURS1" >
+                  <div class="showDetail">
+                    <label class="form-control-label voyageurs-input"><b>VOYAGEURS</b></label>
+                    <input class="form-control" [value]="search_globV.voyageurs" id="VOYAGEURS"
+                      placeholder="0 Adultes, 0 Enfants, 0 Bébés" style="background-color: #e9ecef00;" autocomplete="off" required>
+                  </div>
+                  <div class="collapseOne">
+                    <div class="menuClasse pt-2">
+                      <div class="container matmenu_Style">
+                        <div class="row">
+                          <div class="col single-categorie">
+                            <h5 class="title-categorie">Adultes <br> <b class="sous-title ">13 ans et plus</b></h5>
+                            <div class="quantite-categorie">
+                              <button class="btn btn_quantit"
+                                [ngClass]="{'minus-opacity': search_globV.voyageur_categories.Adultes == 0}"
+                                (click)="onClickminus('Adultes',$event)">
+                                <mat-icon class="quantit_icon">remove</mat-icon>
+                              </button>
+                              <h5 class="quantite">{{search_globV.voyageur_categories.Adultes}}</h5>
+                              <button class="btn btn_quantit" (click)="onClickplus('Adultes',$event)">
+                                <mat-icon class="quantit_icon">add</mat-icon>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col single-categorie">
+                            <h5 class="title-categorie">Enfants <br> <b class="sous-title ">De 2 à 12ans</b></h5>
+                            <div class="quantite-categorie">
+                              <button class="btn btn_quantit"
+                                [ngClass]="{'minus-opacity': search_globV.voyageur_categories.Enfants == 0}"
+                                (click)="onClickminus('Enfants',$event)">
+                                <mat-icon class="quantit_icon">remove</mat-icon>
+                              </button>
+                              <h5 class="quantite">{{search_globV.voyageur_categories.Enfants}}</h5>
+                              <button class="btn btn_quantit" (click)="onClickplus('Enfants',$event)">
+                                <mat-icon class="quantit_icon">add</mat-icon>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col single-categorie">
+                            <h5 class="title-categorie">Bébés <br> <b class="sous-title "> - 2ans</b></h5>
+                            <div class="quantite-categorie">
+                              <button class="btn btn_quantit"
+                                [ngClass]="{'minus-opacity': search_globV.voyageur_categories.Bebes == 0}"
+                                (click)="onClickminus('Bebes',$event)">
+                                <mat-icon class="quantit_icon">remove</mat-icon>
+                              </button>
+                              <h5 class="quantite">{{search_globV.voyageur_categories.Bebes}}</h5>
+                              <button class="btn btn_quantit " (click)="onClickplus('Bebes',$event)">
+                                <mat-icon class="quantit_icon">add</mat-icon>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="pt-3" style="color: #040348;" >
+                  <span><span class="text-font-w">Arrivée:</span><span class="par_t"> Après 14h00 </span></span>
+                  <div class="float-end">
+                    <span><span class="text-font-w">Départ:</span><span class="par_t"> 12h00</span> </span>
+                  </div>
+                </div> -->
+              </div>
+            </form>
+
+            <br>
+            <button mat-stroked-button class="btn_reserver text-white" (click)="onClick_Reserver()" [disabled]="searchForm.invalid || !search_globV.voyageurs">Réserver</button> <br>
+
+            <div class="text-center pt-3">
+              <p  style="font-family: unset;">Aucun montant ne vous sera débité pour le moment</p>
+              <p  style="font-family: unset;">Le prix total du voyage comprend la TVA et tous les frais applicables</p>
+            </div>
+            <hr class="add_hr">
+
+            <div>
+              <h2 style="font-weight: 600;">Détails du prix</h2>
+
+              <div style="line-height: 25px;font-size: 16px;">
+                <div>
+                  <span class="sous_titlel">
+                    {{convertCurrency(getlogement.price)['price_symbol']}} {{convertCurrency(getlogement.price)['price']}} x {{Difference_In_Days}} nuits
+                  </span>
+                  <div class="float-end">
+                    <span class="text-font-w">
+                      {{convertCurrency(getlogement.price)['price_symbol']}} {{convertCurrency(getlogement.price)['price'] * Difference_In_Days}}
+                    </span>
+                  </div>
+                </div>
+                <div style="color: #CD9257;" *ngIf="getlogement.reduction > 0">
+                  <span class="sous_titlel">Réduction</span>
+                  <div class="float-end">
+                    <span class="text-font-w">
+                      -{{convertCurrency(getlogement.price)['price_symbol']}} {{convertCurrency(getlogement.reduction)['price']}}
+                    </span>
+                  </div>
+                </div>
+                <div *ngIf="getlogement.cleaning_fees > 0">
+                  <span class="sous_titlel">Frais de ménage</span>
+                  <div class="float-end">
+                    <span class="text-font-w">
+                      {{convertCurrency(getlogement.price)['price_symbol']}} {{convertCurrency(getlogement.cleaning_fees)['price']}}
+                    </span>
+                  </div>
+                </div>
+                <div *ngIf="getlogement.service_fees > 0">
+                  <span class="sous_titlel">Frais de service</span>
+                  <div class="float-end">
+                    <span class="text-font-w">
+                      {{convertCurrency(getlogement.price)['price_symbol']}} {{convertCurrency(getlogement.service_fees)['price']}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="py-2 text-center" *ngIf="getlogement['services_included'].length > 0">_____Services inclus_____</div>
+
+              <div class="card-calcul">
+                <ng-container  *ngFor="let service_inclus of getlogement['services_included']">
+                  <div style="color: #CD9257;">
+                    <span class="text-font-w">
+                      <span class="material-icons done">done</span>{{service_inclus.name}}</span>
+                    <div class="float-end">
+                      <span *ngIf="service_inclus.price > 0; else showGratuit">
+                        {{convertCurrency(getlogement.price)['price_symbol']}} {{convertCurrency(service_inclus.price)['price']}}
+                      </span>
+                      <ng-template #showGratuit>
+                        <span>Gratuit</span>
+                      </ng-template>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+
+              <hr style="color: rgb(0 0 0 / 26%);">
+
+              <div class="mt-3 total_text">
+                <span >TOTAL</span>
+                <div class="float-end">
+                  <span>
+                    {{convertCurrency(getlogement.price)['price_symbol']}} {{convertCurrency(prix_total)['price']}}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="text-center mt-3" data-aos="fade-up">
+          <button mat-stroked-button class="btn_offre mb-2">
+            <p><span style="color: #040348;font-weight: 500;">C'est une perle rare.</span>  Les réservations chez Travelbyrec sont souvent complètes.</p>
+          </button> <br>
+          <span>Vous avez des questions? </span><br>
+          <button mat-button class="btn_contactez mt-1 contactLink" data-bs-toggle="modal" data-bs-target="#contactModalGlobal" >Contactez-nous</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal Avis -->
+<div class="modal fade" id="avisModal" tabindex="-1" aria-labelledby="avisModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content contact_modal" *ngIf="getlogement">
+      <div>
+        <button type="button" class="btn-close btn_close float-right" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="float-end avis-header"  data-aos="fade-up">
+              <div class="d-flex align-items-end">
+                <span class="material-icons avis">grade</span>
+                <span class="note-avis-grade"><span class="grad-number">{{global_rating}}</span></span>
+                <span class="global-rating">
+                  <star-rating
+                    [starType]="'svg'"
+                    [rating]="global_rating" [disabled]="true">
+                  </star-rating>
+                </span>
+              </div>
+              <span class="note_avis"><b> Note des avis </b> <span> (Basée sur {{getlogement['avis']['total']}} avis)</span> </span>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="row justify-content-center">
+          <ng-container *ngFor="let av of getlogement['ratings']; let i = index">
+            <div class="col-md-12" data-aos="fade-right">
+              <hr class="add_hr">
+              <div class="row">
+                <div class="col-md-6 d-flex align-items-center">
+                  <img src="./../../../assets/images/avis.jpg" alt="">
+                  <span class="avis_person"><h3 class="mb-1">{{av["fullname"]}}</h3><span>{{ av["date_avis"] | date:'dd/MM/y':'fr-FR'}}</span></span>
+                </div>
+                <div class="col-md-6 d-flex align-items-center add_justif">
+                    <star-rating
+                      [starType]="'svg'"
+                      [rating]="av['rating']" [disabled]="true">
+                    </star-rating>
+                </div>
+                <p class="p_avis">{{av["content_avis"]}}</p>
+              </div>
+            </div>
+            </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="ShareModal" tabindex="-1" aria-labelledby="ShareModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content  share-Modal p-2" *ngIf="logement_Url != ''">
+        <hr class="contact-hr">
+        <div class="modal-body">
+          <share-buttons [theme]="'modern-dark'"
+          [include]="['whatsapp','facebook','twitter','linkedin','pinterest','reddit','telegram','messenger','xing','email']"
+          [show]="6"
+          [url]="logement_Url"
+          [showText]="true"
+          [autoSetMeta]="false"
+          ></share-buttons>
+       </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,74 @@
+<form [formGroup]="searchForm" class="form_style" style="width: 50vh;" data-aos="fade-up">
+  <!-- <div class="d-flex"> // After Update -->
+  <div class="d-flex">
+    <div class="item_title search-nav" id="ADRESSE1">
+      <input type="text" #search class="form-control" autocorrect="off" autocapitalize="off" spellcheck="off" [(ngModel)]="searchbarService.searchbar_Data.search_input"
+             formControlName="adresse" placeholder="Où allez-vous ?" (change)="onSearch($event)">
+    </div>
+    <!-- <div class="title_border"></div> -->
+    <!-- <div class="item_title">
+      <input  bsDaterangepicker [bsConfig]="{ isAnimated: true,adaptivePosition: true }" class="form-control" formControlName="arrivee"
+        placeholder="Ajouter des dates"  autocomplete="off">
+    </div> -->
+    <!-- <div class="title_border"></div> -->
+    <!-- <div class="item_title search_voyageurs" id="VOYAGEURS1">
+      <div class="searchshowDetail">
+        <input class="form-control input-voyageurs" [value]="searchbarService.searchbar_Data.voyageurs" id="VOYAGEURS"
+          placeholder="Voyageurs"  (keyup.enter)="keytab('VOYAGEURS')"  autocomplete="off">
+      </div>
+        <div class="search_Collapse">
+                <div class="menuClasse">
+                  <div class="container matmenu_Style">
+                    <div class="row">
+                      <div class="col single-categorie">
+                        <h5  class="title-categorie">Adultes <br> <b class="sous-title ">13 ans et plus</b></h5>
+                        <div class="quantite-categorie">
+                          <button class="btn btn_quantit" [ngClass]="{'minus-opacity': searchbarService.searchbar_Data.voyageur_categories.Adultes == 0}" (click)="onClickminus('Adultes',$event)">
+                            <mat-icon class="quantit_icon">remove</mat-icon>
+                          </button>
+                          <h5 class="quantite">{{searchbarService.searchbar_Data.voyageur_categories.Adultes}}</h5>
+                          <button class="btn btn_quantit" (click)="onClickplus('Adultes',$event)">
+                            <mat-icon class="quantit_icon">add</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col single-categorie">
+                        <h5 class="title-categorie">Enfants <br> <b class="sous-title ">De 2 à 12ans</b></h5>
+                        <div class="quantite-categorie">
+                          <button class="btn btn_quantit" [ngClass]="{'minus-opacity': searchbarService.searchbar_Data.voyageur_categories.Enfants == 0}" (click)="onClickminus('Enfants',$event)">
+                            <mat-icon class="quantit_icon">remove</mat-icon>
+                          </button>
+                          <h5 class="quantite">{{searchbarService.searchbar_Data.voyageur_categories.Enfants}}</h5>
+                          <button class="btn btn_quantit" (click)="onClickplus('Enfants',$event)">
+                            <mat-icon class="quantit_icon">add</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col single-categorie">
+                        <h5  class="title-categorie">Bébés <br> <b class="sous-title "> - 2ans</b></h5>
+                        <div class="quantite-categorie">
+                          <button class="btn btn_quantit" [ngClass]="{'minus-opacity': searchbarService.searchbar_Data.voyageur_categories.Bebes == 0}" (click)="onClickminus('Bebes',$event)">
+                            <mat-icon class="quantit_icon">remove</mat-icon>
+                          </button>
+                          <h5 class="quantite">{{searchbarService.searchbar_Data.voyageur_categories.Bebes}}</h5>
+                          <button class="btn btn_quantit " (click)="onClickplus('Bebes',$event)">
+                            <mat-icon class="quantit_icon">add</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+        </div>
+    </div> -->
+    <div class="search-position"> <!-- // After Update -->
+      <div class="card-search" [routerLink]="['/nosLogements']">
+        <mat-icon class="search">search</mat-icon>
+      </div>
+    </div>
+  </div>
+</form>

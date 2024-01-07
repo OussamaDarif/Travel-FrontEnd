@@ -1,0 +1,528 @@
+/* You can add global styles to this file, and also import other style files */
+
+@use './assets/_variables.scss';
+
+@import 'material-icons/iconfont/material-icons.css';
+
+@import './assets/_animate.scss';
+@import './assets/_alerts.scss';
+
+@import '~lightgallery/scss/lightgallery';
+
+@import './../node_modules/ngx-sharebuttons/themes/modern.scss';
+
+@import '~css-star-rating/css/star-rating.min.css';
+
+@font-face {
+  font-family: 'Circular-Regular';
+  src: url('./assets/fonts/Circular_Std_Medium.woff2');
+}
+
+@font-face {
+  font-family: 'Circular-Bold';
+  src: url('./assets/fonts/Circular_Std_Bold.woff2');
+}
+
+@font-face {
+  font-family: 'Charlotte-Southern';
+  src: url('./assets/fonts/Charlotte-Southern.ttf');
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  // font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #d6d6d6;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #010129a1;
+  }
+
+
+.shadow {
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 5%) !important;
+}
+
+.alert .mat-button.close {
+    border: none !important;
+     i {
+      color: white;
+      font-size: 12px;
+      background-color: #00000094;
+      margin-top: 13px !important;
+      border-radius: 100px;
+      padding: 5px;
+      &:hover {
+        background-color: white;
+        color: black;
+      }
+  }
+}
+
+.theme-green .bs-datepicker-head {
+  background-color: #040489 !important;
+}
+
+.theme-green .bs-datepicker-body table td span.selected {
+  background-color: #040489 !important;
+}
+
+.theme-green .bs-datepicker-body table td.week span {
+  color: #040489;
+}
+
+.mat-tab-label {
+  width: 100%;
+  height: 10vh !important;
+  box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+  background-color: #ffffffbd;
+}
+
+.mat-tab-header {
+  display: flex;
+  background-color: #0000001a;
+  border-radius: 11px;
+}
+
+.mat-ink-bar {
+  background-color: variables.$primary-color !important;
+  height: 3.5px !important;
+}
+
+.mat-tab-label {
+  color: variables.$black-color;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+
+.mat-tab-label {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.mat-tab-label:focus {
+  color: variables.$tabs-color;
+}
+
+.mat-tab-label:hover {
+  color: variables.$tabs-color;
+}
+
+
+.mat-tab-body-content {
+  overflow: initial !important;
+}
+
+
+
+// .mat-tab-labels {
+//   display: block !important;
+// }
+
+
+.grade {
+  color: #CD9257;
+  position: relative;
+  top: 5px;
+  padding-left: 12.7px;
+  font-size: 20px;
+  padding-right: 4px;
+}
+
+::ng-deep  .mat-menu-panel.menuClasse {
+  min-width: 260px;
+  border-radius: 16px !important;
+  box-shadow: 0px 6px 20px rgb(0 0 0 / 20%) !important;
+  margin-top: 19px;
+  padding: 8px 36px 8px 0px;
+ }
+
+
+ .icon_equipm {
+  color: variables.$black-color;
+  position: relative;
+  top: 4px;
+  padding-right: 12px;
+  font-size: 25px;
+}
+
+
+.btn_reserver {
+  background: linear-gradient(90deg, #040348e3 0%, #0f0d5fed 50.52%, #201f68f2 100%);
+  height: 65px;
+  border-radius: 12px !important;
+  font-size: 18px;
+  cursor: pointer;
+  // font-family: 'Circular-Regular';
+  color: white;
+  width: 100%;
+  border: none;
+  margin-bottom: 8px !important;
+  &:hover {
+    color: white;
+    background: linear-gradient(90deg, #01013c 0%, #0f0d5a 50.52%, #1c1b5a 100%);
+  }
+}
+
+.btn_reserver.mat-button-disabled,.btn_envoyer.mat-button-disabled {
+  color: rgb(255 255 255 / 67%) !important;
+}
+
+.tele-number {
+  text-decoration: underline;
+  color: #cd9257;
+}
+
+.card_paiement {
+  box-shadow: 0px 0px 16px 6px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 6px;
+  background: #FFFFFF;
+  .img_confirmation {
+    height: 188px;
+    width: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    border-radius: 12px;
+  }
+  .fixed_grade {
+    padding: 3px 0px;
+    position: absolute;
+    right: 22px;
+    background: rgba(4, 3, 72, 0.8);
+    border-radius: 0px 12px 0px 6px;
+    top: 22px;
+    font-size: 18px;
+    color: white;
+    font-family: 'Circular-Regular';
+    .justif_grade {
+      position: relative;
+      top: -3px;
+      left: -6px;
+    }
+    .grade {
+      font-size: 24px;
+    }
+  }
+  .done {
+    color: variables.$primary-color;
+    position: relative;
+    top: 5px;
+    font-size: 20px;
+    padding-right: 4px;
+  }
+  .total_text {
+    font-weight: 500;
+    font-size: 20px;
+    font-family: 'Circular-Regular';
+  }
+
+}
+
+
+.btn_contactez {
+  background-color: variables.$primary-color;
+  color: variables.$white-color;
+  // font-family: 'Circular-Regular';
+  font-size: 18px;
+  border-radius: 12px !important;
+  height: 41px;
+  width: 197px;
+}
+
+
+.title_logement {
+  font-size: 26px !important;
+  font-family: "Circular-Regular" !important;
+  line-height: 32px !important;
+}
+
+
+.row_inputs {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  margin-left: 0;
+  margin-bottom: 10px;
+}
+
+.icons_soc{
+  display: flex; justify-content: flex-end
+}
+.icons_soc img{
+  padding: 6px;
+  width: 28px;
+}
+
+.language_footer{
+  padding: 3px;
+  width: 20px;
+  margin-right: -23px;
+  position: absolute;
+  top: -4px;
+}
+
+
+.contact_modal {
+  border-radius: 12px;border: 0px;
+}
+
+.btn_close {
+  position: absolute;
+  top: 21px;
+  left: 22px;
+  width: 0.4em !important;
+  height: 0.4em !important;
+}
+
+@media only screen and (max-width: 991px) {
+  .respo-contactbtn {
+    flex-direction: column;
+  }
+  .map-height {
+    height: 75vh !important;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .icons_soc {
+    justify-content: center
+  }
+  .align_text {
+    text-align: center;
+  }
+}
+
+.title_modal {
+  text-align: center;
+  padding: 17px;
+  font-size: 16px !important;
+}
+
+.contact_modal_body {
+  padding: 1.5rem 1.5rem 0px 1.5rem !important
+}
+
+.contact-hr {
+  width: 96%;
+  margin: 1px auto;
+  opacity: 0.05;
+  height: 0.1px;
+}
+
+.text-font-w {
+  font-weight: 500;
+}
+
+.cursor-p {
+  cursor: pointer;
+}
+
+
+.bs-datepicker-container {
+  padding: 0px !important;
+}
+
+.bs-datepicker {
+  border-radius: 0% !important;
+}
+
+
+
+.mat-drawer-content {
+  display: initial !important;
+}
+
+
+.btn:disabled, .btn.disabled, fieldset:disabled .btn {
+  opacity: 0.9 !important;
+}
+
+.textarea_input {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  max-width: 754px;
+}
+
+
+
+.errors-danger {
+  color: #f7000a;
+  font-size: 11px;
+  padding-left: 5px;
+}
+
+
+.errors-danger-contact {
+  color: #f7000a;
+  font-size: 10px;
+  padding-left: 5px;
+  position: absolute;
+  bottom: 1px;
+  right: 12px;
+}
+
+
+//////////////carousel images Logement///////////////////
+.navigat_btns{
+  background-color: white;
+  color: variables.$black-color;
+  border-radius: 40px;
+  padding: 4px;
+  font-size: 20px;
+}
+
+
+.indicateur-carousel {
+  border-radius: 50px !important;
+  background-color: rgba(225, 224, 224, 0.621);
+  margin-right: 1px;
+  position: relative;
+  padding: 4px;
+  width: 11px;
+  height: 11px;
+  bottom: 27px;
+}
+
+.indicateur-carousel.active {
+    background-color: white;
+    width: 13px;
+    height: 13px;
+    bottom: 28px;
+}
+
+.indicateurs-carousel {
+  justify-content: center;
+  display: flex;
+  margin: auto;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.img_logements:hover {
+  transform: scale(1.3);
+  transition: 0.3s;
+}
+/////////////////////////////////
+
+
+.icons_rev {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.icons_rev.active {
+  color: #ff0000;
+}
+
+.me-2.icons_rev:hover {
+  transform: scale(1.1) !important;
+  color: #ff0000;
+}
+
+
+
+.modal-dialog-scrollable .modal-content.share-Modal {
+  border-radius: 22px !important;
+  padding: 14px !important;
+}
+
+.info_window {
+  .carousel-inner,
+  .img_carousel  {
+    border-radius: 0 !important;
+   }
+   .navigat_btns {
+    padding: 3px;
+    font-size: 13px;
+    user-select: none;
+}
+}
+
+  button.gm-ui-hover-effect {
+    background-color: white !important;
+    border-radius: 100%;
+    top: 4px !important;
+    position: absolute !important;
+    right: 4px !important;
+    z-index: 10;
+  }
+
+  .gm-style-iw.gm-style-iw-c {
+    padding: 0;
+    padding-bottom: 10px !important;
+  }
+
+  .gm-style-iw-d {
+    overflow: auto !important;
+  }
+
+
+
+  .star-container .star {
+     opacity: 1 !important;
+    }
+
+    .global-rating {
+      .rating {
+        justify-content: start !important;
+      }
+      .star-container .star {
+          width: 28px;
+          height: 28px;
+      }
+    }
+
+
+    .pac-container:after {
+      /* Disclaimer: not needed to show 'powered by Google' if also a Google Map is shown */
+      background-image: none !important;
+      height: 0px;
+  }
+
+
+  #fs2jkKOEh29828_9bdkc {
+    opacity: 0;
+    position: absolute;
+    left: 999999vh;
+  }
+
+
+  .spinner-elements  {
+    height: 150px;
+    font-size: 16px;
+    img {
+      width: 30px;
+    }
+  }
+
+
+  .spinner-styles {
+    font-size: 18px;
+    color: white;
+    position: relative;
+    bottom: 25px;
+    left: 7px;
+  }

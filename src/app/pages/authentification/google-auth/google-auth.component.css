@@ -1,0 +1,17 @@
+.spinner-elements {
+  height: 150px;
+  font-size: 16px;
+}
+
+.spinner-elements img {
+  width: 30px;
+}
+
+#video1 {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+/*# sourceMappingURL=google-auth.component.css.map */

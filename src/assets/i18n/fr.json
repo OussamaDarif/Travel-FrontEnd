@@ -1,0 +1,65 @@
+{
+  "HOME": {
+    "TITLE": "Des logements d'exception partout au maroc avec des services haute gamme",
+    "DECOUVREZ_LOGEMENT": "Découvrez nos hébergements",
+    "NAVBAR": {
+      "NOS_LOGEMENT": "Nos logements",
+      "NOS_SERVICES": "Nos services",
+      "DEVENIR_CLIENT": "Comment devenir un client?"
+    },
+    "MENU": {
+      "ACCUEIL": "Accueil",
+      "NOS_LOGEMENT": "Nos logements",
+      "NOS_SERVICES": "Nos services",
+      "LOGOUT": "Se déconnecter",
+      "LOGIN": "S'identifier"
+    },
+    "SEARCHBAR": {
+      "ARRIVEE": "ARRIVÉE",
+      "DEPART": "DÉPART",
+      "VOYAGEURS": "VOYAGEURS",
+      "ADRESSE_PH": "Où allez-vous ?",
+      "DATE_PH": "Ajouter une date",
+      "VOYAGEURS_PH": "0 Adultes, 0 Enfants, 0 Bébés",
+      "ADULTES": "Adultes",
+      "ADULTES_AGE": "13 ans et plus",
+      "ENFANTS": "Enfants",
+      "ENFANTS_AGE": "De 2 à 12ans",
+      "BEBES": "Bébés",
+      "BEBES_AGE": " - 2ans"
+    },
+    "SECTION1_TITLE": "Destinations Populaires",
+    "SECTION2_TITLE": "Découvrez Travel by rec",
+    "CARD1_TITLE": "Des logements uniques pour votre voyage",
+    "CARD2_TITLE": "Une conciergerie en ligne à votre disposition pour votre voyage",
+    "CARD1_BTN": "Découvrez nos logements",
+    "CARD2_BTN": "Découvrez nos services",
+    "FOOTER_TEXT": "Développé par "
+  },
+  "AUTHENTIFICATION": {
+    "REGISTER": {
+      "TITLE_INFO": "Créer votre compte Travel By Rec",
+      "SUB_TITLE": "Créer un nouveau compte",
+      "EMAIL": "Email",
+      "PASSWORD": "Mot de passe",
+      "FULL_NAME": "Nom et Prénom",
+      "TELEPHONE": "Numéro de Téléphone",
+      "BTN_CONNECTER": "Créer mon compte",
+      "TEXT": "Vous êtes déjà inscrit?",
+      "LIEN_CONNECTER": "Connectez-vous"
+    },
+    "LOGIN": {
+      "TITLE_INFO": "Bienvenue à nouveau sur Travel By Rec",
+      "SUB_TITLE": "Se connecter à votre compte",
+      "EMAIL": "Email",
+      "PASSWORD": "Mot de passe",
+      "BTN_CONNECTER": "Se connecter",
+      "TEXT": "Vous n’êtes pas encore inscrit?",
+      "LIEN_REGISTER": "Inscrivez-vous"
+    },
+    "BTN_GOOGLE": "Continuer avec Google"
+  }
+}
+
+
+

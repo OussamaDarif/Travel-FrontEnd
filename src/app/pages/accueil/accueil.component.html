@@ -1,0 +1,155 @@
+<div class="mt-5 mt-lg-0">
+  <div class="background_image mt-lg-4">
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="searchForm" class="form_style" data-aos="fade-up">
+          <div class="row">
+            <div class="col-md-2 item_title adress-item-input" id="ADRESSE1">
+              <label class="form-control-label"><b>ADRESSE</b></label>
+              <input type="text"  #search autocorrect="off" autocapitalize="off" spellcheck="off" [(ngModel)]="search_globV.search_input"
+               class="form-control" formControlName="adresse" placeholder="{{ 'HOME.SEARCHBAR.ADRESSE_PH' | translate }}"required>
+            </div>
+            <div class="title_border"></div>
+            <div class="col-md-4 item_title py-0">
+              <mat-form-field appearance="standard" class="w-100 pe-3 pt-2" [ngClass]="{'pb-2': searchForm.controls!['arrivee'].hasError('matStartDateInvalid') || searchForm.controls!['depart'].hasError('matEndDateInvalid')}">
+                <mat-label><b>{{ 'HOME.SEARCHBAR.ARRIVEE' | translate }}</b> - <b> {{ 'HOME.SEARCHBAR.DEPART' | translate }}</b> </mat-label>
+                <mat-date-range-input [formGroup]="searchForm" [rangePicker]="picker">
+                  <input matStartDate formControlName="arrivee" placeholder="DD/MM/YYYY" [(ngModel)]="search_globV.arrivee_date" autocomplete="off" required readonly autofocus>
+                  <input matEndDate formControlName="depart" placeholder="DD/MM/YYYY" [(ngModel)]="search_globV.depart_date" autocomplete="off" required readonly>
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+                <mat-error *ngIf="searchForm.controls!['arrivee'].hasError('matStartDateInvalid')">Date d'arrivée invalide</mat-error>
+                <mat-error *ngIf="searchForm.controls!['depart'].hasError('matEndDateInvalid')">Date de départ invalide</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="title_border"></div>
+            <div class="col-md-3 item_title voyageurs_with" id="VOYAGEURS1">
+              <div class="showDetail">
+                <label class="form-control-label"><b>{{ 'HOME.SEARCHBAR.VOYAGEURS' | translate }}</b></label>
+                <input class="form-control input-voyageurs" [value]="search_globV.voyageurs" id="VOYAGEURS"
+                  placeholder="{{ 'HOME.SEARCHBAR.VOYAGEURS_PH' | translate }}" autocomplete="off" required>
+              </div>
+                <button class="btn card-search" (click)="onClick_Search()" [disabled]="searchForm.invalid || !search_globV.voyageurs">
+                  <mat-icon class="search">search</mat-icon>
+                </button>
+
+                <div class="collapseOne">
+                  <div class="menuClasse">
+                    <div class="container matmenu_Style">
+                      <div class="row">
+                        <div class="col single-categorie">
+                          <h5  class="title-categorie">{{ 'HOME.SEARCHBAR.ADULTES' | translate }} <br> <b class="sous-title ">{{ 'HOME.SEARCHBAR.ADULTES_AGE' | translate }}</b></h5>
+                          <div class="quantite-categorie">
+                            <button class="btn btn_quantit" [ngClass]="{'minus-opacity': search_globV.voyageur_categories.Adultes == 0}" (click)="onClickminus('Adultes', $event)">
+                              <mat-icon class="quantit_icon">remove</mat-icon>
+                            </button>
+                            <h5 class="quantite">{{search_globV.voyageur_categories.Adultes}}</h5>
+                            <button class="btn btn_quantit" (click)="onClickplus('Adultes', $event)">
+                              <mat-icon class="quantit_icon">add</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col single-categorie">
+                          <h5 class="title-categorie">{{ 'HOME.SEARCHBAR.ENFANTS' | translate }} <br> <b class="sous-title ">{{ 'HOME.SEARCHBAR.ENFANTS_AGE' | translate }}</b></h5>
+                          <div class="quantite-categorie">
+                            <button class="btn btn_quantit" [ngClass]="{'minus-opacity': search_globV.voyageur_categories.Enfants == 0}" (click)="onClickminus('Enfants', $event)">
+                              <mat-icon class="quantit_icon">remove</mat-icon>
+                            </button>
+                            <h5 class="quantite">{{search_globV.voyageur_categories.Enfants}}</h5>
+                            <button class="btn btn_quantit" (click)="onClickplus('Enfants', $event)">
+                              <mat-icon class="quantit_icon">add</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col single-categorie">
+                          <h5  class="title-categorie">{{ 'HOME.SEARCHBAR.BEBES' | translate }} <br> <b class="sous-title ">{{ 'HOME.SEARCHBAR.BEBES_AGE' | translate }}</b></h5>
+                          <div class="quantite-categorie">
+                            <button class="btn btn_quantit" [ngClass]="{'minus-opacity': search_globV.voyageur_categories.Bebes == 0}" (click)="onClickminus('Bebes',$event)">
+                              <mat-icon class="quantit_icon">remove</mat-icon>
+                            </button>
+                            <h5 class="quantite">{{search_globV.voyageur_categories.Bebes}}</h5>
+                            <button class="btn btn_quantit " (click)="onClickplus('Bebes', $event)">
+                              <mat-icon class="quantit_icon">add</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+    <span id="image_home">
+      {{ 'HOME.TITLE' | translate }}<br>
+      <button mat-button class="btn mat-card-content_button" [routerLink]="['/nosLogements']">{{ 'HOME.DECOUVREZ_LOGEMENT' | translate }}</button>
+    </span>
+  </div><br>
+  <div class="pt-4">
+    <span class="destination_title" data-aos="fade-up">{{ 'HOME.SECTION1_TITLE' | translate }}</span>
+    <div class="row" data-aos="fade-left">
+      <div class="col-md-4 col-sm-6">
+        <mat-card class="destination_card" data-aos="fade-left" (click)="search_using_city(4)">
+          <img mat-card-image src="../../../assets/images/marrakech.jpg" alt="Marrakech" class="distination">
+          <mat-card-content>
+            <p>
+              Marrakech
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-md-4 col-sm-6">
+        <mat-card class="destination_card" data-aos="fade-left" (click)="search_using_city(1)">
+          <img mat-card-image src="../../../assets/images/casablanca.jpg" alt="Casablanca" class="distination">
+          <mat-card-content>
+            <p>
+              Casablanca
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-md-4 col-sm-6">
+        <mat-card class="destination_card" data-aos="fade-left" (click)="search_using_city(2)">
+          <img mat-card-image src="../../../assets/images/rabat.jpg" alt="Rabat" class="distination">
+          <mat-card-content>
+            <p>
+              Rabat
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  <div class="pt-4">
+    <span class="destination_title" data-aos="fade-up">{{ 'HOME.SECTION2_TITLE' | translate }}</span>
+    <div class="row">
+      <div class="col-md-6 col-sm-6">
+        <mat-card class=" first_img" data-aos="fade-right">
+          <mat-card-content>
+            <span>
+              {{ 'HOME.CARD1_TITLE' | translate }} <br>
+              <button mat-button class="mat-card-content_button" [routerLink]="['/nosLogements']">{{ 'HOME.CARD1_BTN' | translate }}</button>
+            </span>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-md-6 col-sm-6">
+        <mat-card class=" second_img" data-aos="fade-left">
+          <mat-card-content>
+            <span>
+              {{ 'HOME.CARD2_TITLE' | translate }} <br>
+              <button mat-button class="mat-card-content_button" [routerLink]="['/nosServices']">{{ 'HOME.CARD2_BTN' | translate }}</button>
+            </span>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

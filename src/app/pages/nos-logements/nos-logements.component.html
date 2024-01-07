@@ -1,0 +1,417 @@
+<div class="page_margin pt-5">
+  <div class="row" data-aos="fade-right">
+    <div class="btn_logements mt-3">
+      <span class="border_btnlogements">
+        <button mat-stroked-button class="btn_logement btn-select">
+          <select id="cars" name="cars" (change)="getDistance_value($event)" class="select-distance"
+            [(ngModel)]="searchbar_Data.selected_rayon">
+            <option value="" selected>Choisissez la Distance</option>
+            <option value="exact">Lieu exact uniquement</option>
+            <option value="10">Dans un rayon de 10km</option>
+            <option value="25">Dans un rayon de 25km</option>
+            <option value="50">Dans un rayon de 50km</option>
+            <option value="75">Dans un rayon de 75km</option>
+            <option value="100">Dans un rayon de 100km</option>
+          </select>
+          <!-- <span class="material-icons expand-more-dropdown">expand_more</span> -->
+        </button>
+        <button mat-stroked-button class="btn_logement btn-select">
+          <select id="Type_logement" name="Type_logement" class="select-distance" (change)="getTypelogement($event)"
+            [(ngModel)]="searchbar_Data.selected_type">
+            <option value="" selected>Type de logement</option>
+            <ng-container *ngFor="let type of types_logement; let i = index">
+              <option value="{{type}}">{{type}}</option>
+            </ng-container>
+          </select>
+          <!-- <span class="material-icons expand-more-dropdown">expand_more</span>
+          </div> -->
+        </button>
+        <button mat-stroked-button class="btn_logement btn-select">
+          <select id="Note_avis" name="Note_avis" class="select-avis" (change)="getAvis_value($event)"
+            [(ngModel)]="searchbar_Data.selected_avis">
+            <option value="" selected>Note des avis</option>
+            <option value="5">
+              5 Étoiles
+            </option>
+            <option value="4">
+              4 Étoiles
+            </option>
+            <option value="3">
+              3 Étoiles
+            </option>
+            <option value="2">
+              2 Étoiles
+            </option>
+            <option value="1">
+              1 Étoile
+            </option>
+          </select>
+        </button>
+        <button mat-stroked-button class="btn_logement">
+          <mat-label class="pe-2">
+            Prix maximum ({{convertCurrency(max_price)['price']}}{{convertCurrency(max_price)['price_symbol']}})
+          </mat-label>
+          <mat-slider thumbLabel step="1" min="{{minPrice_Logement}}" max="{{maxPrice_Logement}}" aria-label="units"
+            (change)="getMaxprice($event.value)" [(ngModel)]="max_price"></mat-slider>
+        </button>
+      </span>
+
+      <ng-container *ngFor="let equipement of equipements; let i_e = index">
+        <button mat-stroked-button class="btn_logement equipement-btn"
+          [ngClass]="{'equipement-btn': equipement.clicked == true}" (click)="onClickbtn_equipement(equipement)"
+          *ngIf="i_e <= 6">
+          <div class="d-flex align-items-baseline">
+            <img mat-card-image
+              [src]="!equipement.icon ?  '../../../assets/images/default.jpg'  : environment_host + equipement.icon"
+              alt="TravelByrec Équipements" class="imgs-equipement-service icon-service">
+            <div class="equipement-service-name">
+              <span class="service-t">{{equipement.name}}</span>
+            </div>
+          </div>
+        </button>
+      </ng-container>
+      <button mat-stroked-button class="btn_logement" data-bs-toggle="modal" data-bs-target="#filtresModal"
+        style="height: 42px;" (click)="onClickFilter()">
+        <span class="material-icons rotate-icon-filter">tune</span> Filters
+      </button>
+    </div>
+  </div>
+  <div class="row g-3 logements-revers">
+    <div class="col-md-6">
+      <hr class="mt-1 hr-color">
+      <div class="ms-2" data-aos="fade-up">
+        <h1 class="nos-lg-title">Nos logements</h1>
+        <p>
+          {{total_lgAfterFilter(searchbar_Data.filtred_logements) != 0 ?
+            (total_lgAfterFilter(searchbar_Data.filtred_logements) + " Logements trouvés sur la zone de la carte" ) :
+            (hideShimmer ?
+             'Aucun Logements trouvés sur la zone de la carte, Modifiez ou supprimez certains de vos filtres ou ajustez votre zone de recherche.' : "")}}
+        </p>
+      </div>
+      <hr class="hr-color">
+      <div class="add-overflow-scroll">
+        <div *ngIf="total_lgAfterFilter(searchbar_Data.filtred_logements) > 0 && hideShimmer != false; else elseShowData">
+          <ng-container *ngFor="let logement of searchbar_Data.filtred_logements  | paginate: { id:'p2' ,itemsPerPage: 4, totalItems:totalItems, currentPage: p2 }; let i = index">
+            <mat-card (mouseover)="getLocalisation(logement)" class="cursor-p"
+              *ngIf="logement.disable != true && logement.disableEq != true && logement.disableType != true && logement.disableMax_price != true && logement.disableAvis != true ">
+              <div class="row">
+                <div class="col-md-6 col-sm-6" style="max-width: fit-content;">
+                  <div id="carouselExampleControls" class="carousel slide" data-ride="carousel"
+                    *ngIf="logement.photos.length > 0; else default_img">
+                    <div class="carousel-indicators">
+                    </div>
+                    <div class="carousel-inner" role="listbox">
+                      <div class="carousel-item" *ngFor="let result of logement.photos; let i_lg = index"
+                        [ngClass]="{'active': (i_lg == Indicator && (i == lg_index)) ||  i_lg == 0}">
+                        <div class="img">
+                          <img [src]="environment_host + result" title="TravelByrec"
+                            class="img_carousel img_logements" />
+                        </div>
+                        <div class="indicateurs-carousel" *ngIf="i_lg < 11; else show_static_indic">
+                          <ng-container *ngFor="let indicateur of logement.photos; let indic = index">
+                            <div class="indicateur-carousel" [ngClass]="{'active': i_lg == indic,'d-none': indic > 10 }">
+                            </div>
+                          </ng-container>
+                        </div>
+                        <ng-template #show_static_indic>
+                          <div class="indicateurs-carousel">
+                            <ng-container *ngFor="let indicateur of logement.photos; let indic = index">
+                              <div class="indicateur-carousel" [ngClass]="{'active': indic == 10,'d-none': indic > 10 }">
+                              </div>
+                            </ng-container>
+                          </div>
+                        </ng-template>
+                      </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                      data-bs-slide="prev" (click)="prevBtn(i)">
+                      <span class="material-icons navigat_btns">arrow_back</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                      data-bs-slide="next" (click)="nextBtn(i,logement)">
+                      <span class="material-icons navigat_btns">arrow_forward</span>
+                    </button>
+                  </div>
+                  <ng-template #default_img>
+                    <div class="img">
+                      <img class="img_carousel" src="../../../assets/images/default.jpg" accept="image/*">
+                    </div>
+                  </ng-template>
+                </div>
+                <div class="col-md-6 col-sm-6 responsiv_col">
+                  <span (click)="view_logement(logement)">
+                    <div class="mb-2">
+                      <span class="border_appt">{{logement.type}}</span>
+                      <ng-container *ngIf="logement['avis']['total'] > 0">
+                        <span class="material-icons grade">grade</span>
+                        <span><b>{{logement['avis']['score']?.toFixed(2)}}</b> <span class="avis"> -
+                            {{logement['avis']['total']}} avis</span> </span>
+                      </ng-container>
+                          <br>
+                    </div>
+                    <div class="title_log">
+                      <span>{{logement.title}}</span>
+                    </div>
+                    <hr class="hr_with">
+                    <div class="mt-2">
+                      <span class="border_appt">{{logement.bedrooms}} chambres</span>
+                      <span class="border_appt second_element">{{logement.beds}} lits</span>
+                      <span class="third_element">{{logement.bathrooms}} salles de bain</span>
+                    </div>
+                  </span>
+                  <div class="icons-lg-action">
+                    <span class="material-icons me-2 icons_rev" (click)="onClickfavorite(logement)"
+                      [ngClass]="{'active': logement.ispreferred == true}">favorite</span>
+                    <span class="material-icons icons_rev" data-bs-toggle="modal" data-bs-target="#ShareModal"
+                      (click)="onClickShare(logement)">share</span>
+                    <div class="float-end" (click)="view_logement(logement)">
+                      <span class="somme">
+                        {{convertCurrency(max_price)['price_symbol']}} {{convertCurrency(logement.price)['price']}}
+                        <span class="par_t"> / nuit</span></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+            <hr class="hr-color"
+              *ngIf="logement.disable != true && logement.disableEq != true && logement.disableType != true && logement.disableMax_price != true &&  logement.disableAvis != true">
+          </ng-container>
+        </div>
+        <ng-template #elseShowData>
+          <div *ngIf="hideShimmer == false">
+            <ng-container *ngFor="let logement of [0,1,2,3] | paginate: { id:'p2' ,itemsPerPage: 4, totalItems:totalItems, currentPage: p2 }; let i = index">
+              <mat-card>
+                <div class="row">
+                  <div class="col-md-6 col-sm-6">
+                      <div class="img">
+                        <div class="shine img_carousel"></div>
+                      </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 responsiv_col">
+                    <span>
+                      <div class="mb-2">
+                        <span class="shine lines"></span><span class="border_appt"></span>
+                        <span class="material-icons grade">grade</span>
+                        <span class="shine lines"></span>
+                        <br>
+                      </div>
+                      <div class="title_log">
+                        <span class="shine paragraph"></span>
+                      </div>
+                      <hr class="hr_with">
+                      <div class="mt-2">
+                        <span class="shine paragraph"></span>
+                      </div>
+                    </span>
+                    <div class="icons-lg-action">
+                      <span class="shine lines"></span>
+                      <div class="float-end">
+                        <span class="shine lines"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-card>
+              <hr class="hr-color">
+            </ng-container>
+          </div>
+        </ng-template>
+        <div class="col-md-12" *ngIf="total_lgAfterFilter(searchbar_Data.filtred_logements) != 0">
+          <ng-container>
+            <pagination-controls id='p2' (pageChange)="p2 = $event" class="float-right" style="size:0.8"
+              previousLabel="Précédente" nextLabel="suivant">
+            </pagination-controls>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 d-none d-md-block d-lg-block">
+      <agm-map class="map-height" [latitude]="options.lat" [longitude]="options.lng"
+        [fullscreenControl]="options.fullscreen" [zoom]="options.zoom" [scrollwheel]="null"
+        [styles]="searchbar_Data.styles" [gestureHandling]="'cooperative'" [mapTypeControl]="true" #agmMap>
+
+        <ng-container *ngFor="let logement of searchbar_Data.filtred_logements; let i = index">
+          <agm-marker (mouseOver)="onMouseOver(infoWindow,$event)"
+            *ngIf="logement.disable != true && logement.disableEq != true && logement.disableType != true && logement.disableMax_price != true && logement.disableAvis != true"
+            [latitude]="logement.location[0].lat" [longitude]="logement.location[0].lng" [iconUrl]="$any({url: (options.lat == logement.location[0].lat && logement.location[0].lng == logement.location[0].lng) ?  '../../../assets/images/marker.png' : '../../../assets/images/marker_orig.png',
+                                      scaledSize: { height: 70, width: 70 }} )">
+            <agm-info-window class="agm-window" #infoWindow>
+              <div id="carouselExampleControls" class="carousel slide info_window" data-ride="carousel"
+                *ngIf="logement.photos.length > 0; else default_img">
+                <div class="carousel-indicators">
+                </div>
+                <div class="carousel-inner carousel_inner" role="listbox">
+                  <div class="carousel-item" *ngFor="let result of logement.photos; let i_lg = index"
+                    [ngClass]="{'active': (i_lg == Indicator && (i == lg_index)) ||  i_lg == 0}">
+                    <div class="img">
+                      <img [src]="environment_host + result" title="TravelByrec"
+                        class="img_carousel img_logements img-carousel" />
+                    </div>
+                    <div class="indicateurs-carousel" *ngIf="i_lg < 11; else show_static_indic_map">
+                      <ng-container *ngFor="let indicateur of logement.photos; let indic = index">
+                        <div class="indicateur-carousel" [ngClass]="{'active': i_lg == indic,'d-none': indic > 10 }">
+                        </div>
+                      </ng-container>
+                    </div>
+                    <ng-template #show_static_indic_map>
+                      <div class="indicateurs-carousel">
+                        <ng-container *ngFor="let indicateur of logement.photos; let indic = index">
+                          <div class="indicateur-carousel" [ngClass]="{'active': indic == 10,'d-none': indic > 10 }">
+                          </div>
+                        </ng-container>
+                      </div>
+                    </ng-template>
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                  data-bs-slide="prev" (click)="prevBtn(i)">
+                  <span class="material-icons navigat_btns">arrow_back</span>
+                </button>
+                <button class="carousel-control-next carousel_next" type="button"
+                  data-bs-target="#carouselExampleIndicators" data-bs-slide="next" (click)="nextBtn(i,logement)">
+                  <span class="material-icons navigat_btns">arrow_forward</span>
+                </button>
+              </div>
+              <ng-template #default_img>
+                <div class="img">
+                  <img class="img_carousel" src="../../../assets/images/default.jpg" accept="image/*">
+                </div>
+              </ng-template>
+              <div class="mb-1 px-2">
+                <span class="border_appt">{{logement.type}}</span>
+                <ng-container *ngIf="logement['avis']['total'] > 0">
+                  <span class="material-icons grade">grade</span>
+                  <span><b>{{logement['avis']['score']?.toFixed(2)}}</b> <span class="avis"> -
+                    {{logement['avis']['total']}} avis</span> </span>
+                </ng-container>
+                  <br>
+              </div>
+              <strong class="marker-address float-end px-2" (click)="view_logement(logement)"> {{logement.title}}
+              </strong>
+            </agm-info-window>
+          </agm-marker>
+        </ng-container>
+
+      </agm-map>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Filtres -->
+<div class="modal fade" id="filtresModal" tabindex="-1" aria-labelledby="filtresModal" aria-hidden="true"
+  data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content contact_modal">
+      <div>
+        <h5 class="title_modal" id="filtresModal"><b>Plus de filtres</b></h5>
+        <button type="button" class="btn-close btn_close float-right" data-bs-dismiss="modal" aria-label="Close"
+          (click)="annulerfilterPar_Equipement()"></button>
+      </div>
+      <hr class="contact-hr">
+      <div class="modal-body contact_modal_body">
+        <h2>Chambres et lits</h2>
+        <div class="matmenu_Style">
+          <div class="row">
+            <div class="col single-categorie">
+              <h5 class="title-categorie">Lits</h5>
+              <div class="quantite-categorie">
+                <button class="btn btn_quantit minus_marg" [ngClass]="{'minus-opacity': details_logement.Lits == 0}"
+                  (click)="onClickminus('Lits',$event)">
+                  <mat-icon class="quantit_icon">remove</mat-icon>
+                </button>
+                <h5 class="quantite">{{details_logement.Lits}}</h5>
+                <button class="btn btn_quantit" (click)="onClickplus('Lits',$event)">
+                  <mat-icon class="quantit_icon">add</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col single-categorie">
+              <h5 class="title-categorie">Chambres</h5>
+              <div class="quantite-categorie">
+                <button class="btn btn_quantit minus_marg" [ngClass]="{'minus-opacity': details_logement.Chambres == 0}"
+                  (click)="onClickminus('Chambres',$event)">
+                  <mat-icon class="quantit_icon">remove</mat-icon>
+                </button>
+                <h5 class="quantite">{{details_logement.Chambres}}</h5>
+                <button class="btn btn_quantit" (click)="onClickplus('Chambres',$event)">
+                  <mat-icon class="quantit_icon">add</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col single-categorie">
+              <h5 class="title-categorie">Salles de bain</h5>
+              <div class="quantite-categorie">
+                <button class="btn btn_quantit minus_marg"
+                  [ngClass]="{'minus-opacity': details_logement.Salles_bain == 0}"
+                  (click)="onClickminus('Salles_bain',$event)">
+                  <mat-icon class="quantit_icon">remove</mat-icon>
+                </button>
+                <h5 class="quantite">{{details_logement.Salles_bain}}</h5>
+                <button class="btn btn_quantit " (click)="onClickplus('Salles_bain',$event)">
+                  <mat-icon class="quantit_icon">add</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="second_hr">
+        <h2>Equipements</h2>
+        <!-- <form class="example-section mb-2" [formGroup]="equipements">
+          <div class="row">
+            <div class="col-md-3">
+              <p><mat-checkbox color='primary' formControlName="wifi">Wifi</mat-checkbox></p>
+              <p><mat-checkbox color='primary' formControlName="cheminee">Cheminée</mat-checkbox></p>
+            </div>
+            <div class="col-md-3">
+              <p><mat-checkbox color='primary' formControlName="cuisine">Cuisine</mat-checkbox></p>
+              <p><mat-checkbox color='primary' formControlName="chauffage">Chauffage</mat-checkbox></p>
+            </div>
+            <div class="col-md-3">
+              <p><mat-checkbox color='primary' formControlName="piscine">Piscine</mat-checkbox></p>
+              <p><mat-checkbox color='primary' formControlName="salle_sport">Salle de sport</mat-checkbox></p>
+            </div>
+            <div class="col-md-3">
+              <p><mat-checkbox color='primary' formControlName="Bord_mer">Bord de mer</mat-checkbox></p>
+              <p><mat-checkbox color='primary' formControlName="climatisation">Climatisation</mat-checkbox></p>
+            </div>
+            <span class="cursor-p" data-aos="fade-right"><span class="show_plus">Afficher tous les équipements</span><span
+            class="material-icons icon_right">chevron_right</span></span>
+          </div>
+        </form> -->
+        <div class="row mb-2">
+          <ng-container *ngFor="let equipement of equipements; let i_ef = index">
+            <div class="col-md-3 col-sm-6">
+              <mat-checkbox color='primary' [checked]="equipement.clicked == true"
+                (change)="onClickChecked_equipement(equipement)">{{equipement.name}}</mat-checkbox>
+            </div>
+          </ng-container>
+        </div>
+        <hr class="second_hr">
+        <!-- <h2>Règlement intérieur</h2>
+        <p><mat-checkbox color='primary' formControlName="logement_fumeur">Logement fumeur</mat-checkbox></p> -->
+      </div>
+      <!-- <hr class="final_hr"> -->
+      <div class="modal-footer mt-4">
+        <button type="button" class="btn btn-travel px-5" data-bs-dismiss="modal" (click)="onClick_ok()">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="ShareModal" tabindex="-1" aria-labelledby="ShareModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable ">
+    <div class="modal-content share-Modal p-2" *ngIf="logement_Url != ''">
+      <hr class="contact-hr">
+      <div class="modal-body">
+        <share-buttons [theme]="'modern-dark'"
+          [include]="['whatsapp','facebook','twitter','linkedin','pinterest','reddit','telegram','messenger','xing','email']"
+          [show]="6" [url]="logement_Url" [showText]="true" [autoSetMeta]="false"></share-buttons>
+      </div>
+    </div>
+  </div>
+</div>

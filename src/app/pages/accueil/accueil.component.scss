@@ -1,0 +1,424 @@
+@use '../../../assets/_variables.scss';
+
+::ng-deep .mat-drawer-container {
+  background-color: #fafafa2b !important;
+}
+
+.background_image {
+    border-radius: 16px;
+    margin-top: 8vh;
+    height: 100vh;
+    background:linear-gradient(180deg, rgba(4, 3, 72, 0.46) 0%, rgba(4, 3, 72, 0) 100%), url(../../../assets/images/banner_4.jpg) no-repeat repeat;
+    background-position: center;
+    background-size: cover;
+    min-height: 700px;
+    background-color: #00000040;
+    background-blend-mode: darken;
+    //Display Content
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    mat-card {
+      height: 60%;
+    }
+  }
+
+  mat-card  {
+    background: #fff0;
+    box-shadow: none !important;
+    // margin-bottom: 26px;
+    &:hover img {
+      filter: brightness(0.9);
+    }
+  }
+
+  mat-card  img{
+    background: variables.$white-color;
+    border-radius: 9px;
+    filter: brightness(0.8);
+    margin-bottom: 5px;
+    object-fit: cover;
+    pointer-events: none;
+
+  }
+
+  .same_var_img {
+    height: 539px;
+    border-radius: 9px;
+    margin-bottom: 5px;
+    object-fit: cover;
+  }
+
+  .first_img {
+    background: linear-gradient(180deg, rgba(4, 3, 72, 0.46) 0%, rgba(4, 3, 72, 0) 100%), url(../../../assets/images/img1.jpg) no-repeat repeat;
+    background-size: cover;
+    @extend .same_var_img;
+  }
+
+  .second_img {
+    background: linear-gradient(180deg, rgba(4, 3, 72, 0.46) 0%, rgba(4, 3, 72, 0) 100%), url(../../../assets/images/img2.jpg) no-repeat repeat;
+    background-size: cover;
+    @extend .same_var_img;
+  }
+
+  .distination {
+    height: 315px;
+  }
+
+
+  mat-card-content  p{
+    font-family: 'Circular-Regular';
+    position: absolute;
+    top: 72%;
+    font-weight: 400;
+    color: variables.$white-color;
+    font-size: 26px;
+    padding-top: 25px;
+    text-align: center;
+    filter: saturate(0.5);
+    width: 100%;
+    bottom: 20px;
+    margin-left: -16px;
+    background: linear-gradient(to bottom, #00000014, #01019b );
+    border-radius: 9px;
+  }
+
+  mat-card-content  span {
+    // margin-top: -8vh;
+    font-family: 'Circular-Bold';
+    position: absolute;
+    top: 12%;
+    color: variables.$white-color;
+    font-size: 35px;
+    text-align: center;
+    filter: saturate(0.5);
+    line-height: normal;
+    font-weight: bold;
+    width: 90%;
+    left: 4%;
+  }
+
+  .form-control-label {
+    font-family: 'Circular-Regular';
+  }
+
+  #image_home {
+    // width: 66%;
+    // left: 0%;
+    // top: 56.1vh;
+    // position: relative;
+    color: variables.$white-color;
+    padding: 15px;
+    max-width: 661px;
+    margin: auto;
+    font-size: 35px;
+    font-family: "Circular-Bold";
+    text-align: center;
+    filter: saturate(0.5);
+    line-height: normal;
+    font-weight: bold;
+    display: block;
+  }
+
+  #image_home .btn{
+    background: linear-gradient(90deg, #01019b 35%, #01019b 35%, #312ee7 100%);
+    padding-right: 21px;
+    color: variables.$white-color;
+    border-radius: 12px;
+    padding: 5px 20px 8px 24px;
+  }
+
+
+  .mat-card-content_button{
+    font-family: 'Circular-Regular';
+    margin-top: 21px;
+    background-color: variables.$white-color;
+    color: #04048b;
+    font-size: 15px;
+    padding-left: 21px;
+    padding-right: 21px;
+    border-radius: 12px;
+  }
+
+  .destination_title {
+    font-family: 'Circular-Bold';
+    font-size: 39px;
+    line-height: 50px;
+  }
+
+  .row{
+    margin-top: 3%;
+  }
+
+
+  .form_style{
+    background-color: variables.$white-color;
+    // padding: 0px 46px 0px 14px;
+    // padding: 0px 17px 0px 0px;
+    padding: 0px 17px 0px 10px;
+    // border-radius: 32px;
+    border-radius: 30px;
+    display: block;
+    position: relative;
+    top: 2vh;
+    margin-right: 9vh;
+    margin-left: 9vh;
+    z-index: 4;
+  }
+
+  .card-search {
+    box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+    border-radius: 30px;
+    padding: 12px 34px 6px 12px;
+    border: none;
+    cursor: pointer;
+    width: 0%;
+    top: 19px;
+    margin-top: -8px;
+    position: absolute;
+    background-color: #05059d;
+    right: 10px;
+    .search {
+      font-size: 22px;
+      color: variables.$white-color;
+    }
+  }
+
+  .card-search:hover {
+    background-color: #040348;
+  }
+
+
+  .form-control {
+    padding: 0px !important;
+    border: none !important;
+  }
+
+  .form-control:focus {
+    border-color: #fdfeff00 !important;
+    box-shadow: none;
+    }
+
+
+  .item_title{
+    // border-right: 1px solid #0000004d;
+    padding: 10px 0px 10px 25px;
+    // flex: 0 0 0;
+    // height: 32px;
+  }
+
+  .item_title:hover,.item_title:active{
+    @extend .hover_item
+  }
+
+  .hover_item {
+    padding: 10px 5px 10px 25px;
+    background: linear-gradient(45deg, #d3d1d1, transparent);
+    box-shadow: rgb(0 0 0 / 8%) 0px 5px 15px;
+    border-radius: 30px;
+    input {
+      background-color: transparent;
+    }
+  }
+
+  .item_title:focus-within,.item_title:focus {
+    box-shadow: 0 6px 20px rgb(0 0 0 / 20%);
+    border-radius: 30px;
+    padding: 10px 5px 10px 25px;
+  }
+
+  .item_title:hover  + .title_border {
+    display: none;
+  }
+
+  .item_title:focus-within  + .title_border {
+    display: none;
+  }
+
+
+  .single-categorie {
+    align-items: flex-start;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .title-categorie {
+    padding: 5px 4px 0px;
+    min-width: 110px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+
+
+  .sous-title {
+    opacity: 0.4;
+    font-weight: 500;
+    font-size: 13px;
+  }
+
+  .quantite-categorie {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    }
+
+  .quantite {
+    padding: 7px;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 12px;
+  }
+
+
+  .btn_quantit {
+    padding: 0px 0px 0px 0px;
+    background-color: variables.$primary-color;
+    color: variables.$white-color;
+    border-radius: 20px;
+    width: 22px;
+    height: 22px;
+  }
+
+  .btn_quantit:focus {
+    box-shadow: none;
+  }
+
+  .quantit_icon {
+    font-size: 14px;
+    padding: 0px 4px 0px 0px;
+  }
+
+
+   .minus-opacity {
+    opacity: 0.7;
+   }
+
+
+  ::ng-deep .bs-datepicker {
+    border-radius: 16px !important;
+    box-shadow: 0px 6px 20px rgb(0 0 0 / 20%) !important;
+    margin-top: 20px;
+}
+
+
+.title_border {
+  border-right: 1px solid #0000001c;
+  align-self: center;
+  flex: 0 0 0;
+  height: 40px;
+  position: relative;
+  padding: 0px;
+}
+
+.voyageurs_with {
+  width: 32%;
+  padding: 10px 0px 10px 25px;
+}
+.voyageurs_with:hover {
+  border-radius: 30px;
+  width: 32%;
+}
+
+.input-voyageurs {
+  background-color: #e9ecef00;
+  pointer-events: none !important;
+}
+
+.collapseOne {
+  position: absolute;
+  background: white;
+  border-radius: 30px;
+  margin-top: 16px;
+  margin-left: -24px;
+  min-width: 33%;
+  z-index: 1;
+}
+
+
+
+@media only screen and (max-width: 767px) {
+  .background_image {
+    mat-card  {
+      height: 50%;
+    }
+    #image_home {
+      font-size: 30px;
+    }
+  }
+  mat-card-content  span {
+    font-size: 30px;
+  }
+  .destination_title {
+    font-size: 30px;
+    line-height: 40px;
+  }
+  .border_right{
+    border-right: none;
+  }
+  .title_border {
+    display: none;
+  }
+  .voyageurs_with {
+    width: 100%;
+  }
+  .voyageurs_with:hover {
+    width: 100%;
+  }
+  .collapseOne {
+    width: 100%;
+  }
+  .form_style {
+    margin: auto;
+  }
+  .adress-item-input {
+    width: 100% !important;
+  }
+  .dates-item-input {
+    width: 100% !important;
+  }
+}
+
+
+::ng-deep  .bs-datepicker {
+  top: 0px !important;
+}
+
+
+::ng-deep  .bs-datepicker-body {
+  border:none !important;
+}
+
+
+.adress-item-input {
+  width: 31%;
+}
+
+.dates-item-input {
+  width: 18%;
+}
+
+
+
+@media only screen and (max-width: 920px) {
+  .adress-item-input {
+    width: 24%;
+  }
+  .dates-item-input {
+    width: 21%;
+  }
+}
+
+
+.destination_card {
+  cursor: pointer;
+}
+
+.destination_card:hover {
+  transform: scale(1.1) !important;
+}
+
+
+.mat-card-subtitle, .mat-card-content {
+  font-size: 12px !important;
+}

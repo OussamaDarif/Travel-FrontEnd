@@ -1,0 +1,174 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidebar mode='side' position="end">
+    <app-sidebar></app-sidebar>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="content">
+      <div class="toolbar">
+        <mat-toolbar>
+          <img src="../../../assets/images/travelbyrec.svg" alt="Travel By Rec" class="logo" [routerLink]="['/']">
+          <div class="box-menu">
+            <div *ngIf="showsearch_Bar == true; else default_affichage">
+              <app-searchbar></app-searchbar>
+            </div>
+            <ng-template #default_affichage>
+              <div *ngIf="show_ul_list == true">
+                <a [routerLink]="['/nosLogements']">
+                  <span class="add_borderB">
+                    <span class="mb-1">{{ 'HOME.NAVBAR.NOS_LOGEMENT' | translate }}</span>
+                  </span>
+                </a>
+                <a [routerLink]="['/nosServices']">
+                  <span class="add_borderB">
+                    <span class="mb-1">{{ 'HOME.NAVBAR.NOS_SERVICES' | translate }}</span>
+                  </span>
+                </a>
+                <a [routerLink]="['/authentification/register']" *ngIf="!isLoggedIn && !userInfo">
+                  <span class="add_borderB">
+                    <span class="mb-1">{{ 'HOME.NAVBAR.DEVENIR_CLIENT' | translate }}</span>
+                  </span>
+                </a>
+              </div>
+            </ng-template>
+          </div>
+          <div class="menu_fr">
+            <!-- <mat-icon class="language_f">language</mat-icon> -->
+
+            <div class="dropdown pe-2" style="z-index: 1050;">
+              <div class="lng-menu dropdown-toggle show" id="dropdownLng" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <mat-icon class="language_f">language</mat-icon>
+              </div>
+              <ul class="dropdown-menu dropdown-menu-lng Languages-dropdown mt-3 mt-sm-0" aria-labelledby="dropdownLng">
+                <li (click)="selectedLanguage('fr')"
+                  [ngClass]="{'active-lng': navbar_filter.selected_language == 'fr'}"><span
+                    class="dropdown-item lng-dropdown d-flex align-items-center">
+                    <div class="fr-img me-2"></div> Français
+                  </span></li>
+                <li (click)="selectedLanguage('en')" [ngClass]="{'active-lng': navbar_filter.selected_language == 'en'}"
+                  class="pt-1"><span class="dropdown-item lng-dropdown d-flex align-items-center">
+                    <div class="usa-img me-2"></div> English
+                  </span></li>
+              </ul>
+            </div>
+
+            <div class="currency_menu" (click)="array_move()">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#currencyConvertor" id="Convertor">{{navbar_filter.currency['symbol']}}</a>
+            </div>
+
+
+            <div class="dropdown ps-2" style="z-index: 1050;">
+              <div class="card-menu dropdown-toggle show" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <mat-icon class="menu_css">menu</mat-icon>
+                <img src="../../../assets/images/user.jpg" alt="User" class="user_image">
+              </div>
+              <ul class="dropdown-menu dropdown_menup show py-2" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="#" [routerLink]="['/']"
+                    [ngClass]="{'active-menu': router.url == '/'}">
+                    <mat-icon class="menu-icons">home</mat-icon><span>{{ 'HOME.MENU.ACCUEIL' | translate }}</span>
+                  </a></li>
+                <li><a class="dropdown-item mt-1" href="#" [routerLink]="['/nosServices']"
+                    [ngClass]="{'active-menu': router.url == '/nosServices'}">
+                    <mat-icon class="menu-icons">room_service</mat-icon>
+                    <span>{{ 'HOME.MENU.NOS_SERVICES' | translate }}</span>
+                  </a></li>
+                <li><a class="dropdown-item mt-1" href="#" [routerLink]="['/nosLogements']"
+                    [ngClass]="{'active-menu': router.url == '/nosLogements'}">
+                    <mat-icon class="menu-icons">room</mat-icon><span>{{ 'HOME.MENU.NOS_LOGEMENT' | translate }}</span>
+                  </a></li>
+                <li>
+                  <a class="dropdown-item mt-1" href="#" [routerLink]="['/']" (click)="logout()"
+                    *ngIf="isLoggedIn || userInfo; else log_in">
+                    <mat-icon class="menu-icons">logout</mat-icon><span>{{ 'HOME.MENU.LOGOUT' | translate }}</span>
+                  </a>
+                  <ng-template #log_in>
+                    <a class="dropdown-item mt-1" href="#" [routerLink]="['/authentification/login']">
+                      <mat-icon class="menu-icons">login</mat-icon><span>{{ 'HOME.MENU.LOGIN' | translate }}</span>
+                    </a>
+                  </ng-template>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </mat-toolbar>
+      </div>
+      <div class="row main">
+        <router-outlet></router-outlet>
+        <div class="active-dropdown-menu"></div>
+        <div class="bottom-icons">
+          <a href="javascript:void(0)" (click)="scrolTop()" class="scroll-top d-none" data-aos="fade-up">
+            <span class="material-icons">
+              arrow_upward
+            </span>
+          </a>
+          <a href="https://api.whatsapp.com/send?phone=+212761068515&text=Assistance TravelByRec" target="_blank"
+            class="whatsapp-btn">
+            <svg xmlns="" width="35" height="35" fill="white" class="bi bi-whatsapp" viewBox="0 0 16 16">
+              <path
+                d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <app-footer></app-footer>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+
+
+<!-- Currency -->
+<div class="modal fade" id="currencyConvertor" tabindex="-1" aria-labelledby="currencyConvertor" aria-hidden="true"
+  role="dialog" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-scrollable  modal-lg">
+    <div class="modal-content contact_modal">
+      <div>
+        <h5 class="title_modal" id="currencyConvertor"><b>Choisissez une devise</b></h5>
+        <button type="button" class="btn-close btn_close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+        <hr class="contact-hr">
+      </div>
+      <div class="modal-body">
+        <div class="content">
+          <div class="row list">
+            <ng-container *ngFor="let devise of currency">
+              <div class="col-md-3 col-sm-4 col-6 element">
+                <button  type="button" (click)="selectedCurrency(devise)" [ngClass]="{'active': navbar_filter.currency['currency_name'] == devise.currency_name}">
+                  <div>{{devise.currency_name}}</div>
+                  <div class="symbole">{{devise.symbol}}</div>
+                </button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Popup Video -->
+<div class="modal fade" id="popup_video" tabindex="-1" aria-labelledby="popup_video" aria-hidden="true"
+  role="dialog" data-backdrop="static" *ngIf="show_popup == '/'">
+  <div class="modal-dialog modal-dialog-scrollable  modal-lg">
+    <div class="modal-content contact_modal">
+      <div>
+        <h5 class="title_modal"></h5>
+        <button type="button" class="btn-close btn_close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="content">
+          <video id="video-popup" controls loop autoplay muted>
+            <source src="./../../../assets/videos/TravelByRec_MAROC.mp4" type="video/mp4">
+          </video><br>
+          <div class="text-center pt-3 sub-content">
+            <img src="../../../assets/images/travelbyrec.svg" alt="Travel By Rec" class="logo-popup"><br>
+            <p class="pt-2">Book now your stay with us !</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

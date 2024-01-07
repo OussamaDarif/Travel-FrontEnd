@@ -1,0 +1,67 @@
+h3 {
+  font-family: 'Circular-Regular';
+}
+
+.add_hr {
+  color: rgb(0 0 0 / 26%);
+}
+
+
+.thanks-card {
+  max-width: 847px;
+  margin: auto;
+}
+
+
+.grad-thanks-page {
+  // right: initial !important;
+  // margin-left: -66px !important;
+  top: 0 !important;
+  right: 0 !important;
+}
+
+.padd-items {
+  padding-bottom: 10px;
+  min-width: 117px;
+}
+
+
+.title_border {
+  border-right: 1px solid #0000001c;
+  align-self: center;
+  flex: 0 0 0;
+  height: 40px;
+  position: relative;
+  padding: 0px;
+}
+
+
+.border_hight {
+  height: 15px !important;
+}
+
+
+
+.sous-s-tile {
+  .icon_equipm {
+    top: 6px;
+  }
+}
+
+.sous_titlel {
+  font-weight: 500;text-decoration-line: underline;
+}
+
+.card-calcul {
+  line-height: 25px;font-size: 16px;
+}
+
+
+
+.img_carousel {
+  object-fit: cover;
+  min-height: 198px;
+  width: 100% !important;
+  height: 200px;
+  border-radius: 12px;
+}

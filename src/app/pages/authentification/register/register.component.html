@@ -1,0 +1,91 @@
+   <div class="p-3 p-sm-5 mb-1 mb-sm-5">
+     <img src="../../../assets/images/travelbyrec.svg" alt="Travel By Rec" class="logo" [routerLink]="['/']">
+     <h1 class="authentif-title pt-5">Créer votre compte <span>Travel By Rec</span> </h1>
+     <h5 class="login-sub-title">Créer un nouveau compte</h5>
+     <form [formGroup]="loginForm" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+       <div class="wrapper-phone">
+         <ngx-intl-tel-input [cssClass]="'custom'" [preferredCountries]="preferredCountries"
+           [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true" [searchCountryField]="[SearchCountryField.Iso2,SearchCountryField.Name]"
+           [selectFirstCountry]="true" [selectedCountryISO]="CountryISO.Morocco" [maxLength]="10" customPlaceholder="Numéro de téléphone"
+           [phoneValidation]="true" [separateDialCode]="separateDialCode" [numberFormat]="PhoneNumberFormat.National"
+           name="phone" formControlName="phone" placeholder="Numéro de téléphone">
+         </ngx-intl-tel-input>
+         <div class="errors-danger mt-1" *ngIf="loginForm.get('phone').errors != null  && f.submitted">
+          <div *ngIf="loginForm.get('phone').errors['required']">Numéro de téléphone est requis</div>
+          <div *ngIf="loginForm.get('phone').errors['validatePhoneNumber']">
+              Numéro de téléphone invalide!
+          </div>
+        </div>
+       </div>
+       <div class="inputs-authentif form-group">
+         <input type="text" class="form-control" formControlName="fullname" placeholder="Nom et Prénom" required minlength="3" maxlength="30">
+         <div class="errors-danger mt-1" *ngIf="loginForm.get('fullname').errors != null  && f.submitted">
+          <div *ngIf="loginForm.get('fullname').errors['required']">Nom et Prénom est requis</div>
+          <div *ngIf="loginForm.get('fullname').errors['minlength']">
+            Nom et Prénom must be at least 3 characters
+          </div>
+          <div *ngIf="loginForm.get('fullname').errors['maxlength']">
+            Nom et Prénom must be at most 20 characters
+          </div>
+        </div>
+       </div>
+       <div class="inputs-authentif form-group">
+        <div class="position-relative">
+          <input type="email" class="form-control" *ngIf="!email_valid && counter == null; else emailValide"
+          formControlName="email" placeholder="Email" required>
+          <ng-template #emailValide>
+            <span class="form-control email-valid" *ngIf="email_valid == true">{{loginForm.value.email}}</span>
+            <span class="material-icons verified-email" *ngIf="email_valid == true">verified_user</span>
+            <span class="form-control email-non-valid" *ngIf="email_valid == false">{{loginForm.value.email}}</span>
+          </ng-template>
+        </div>
+         <div class="errors-danger mt-1" *ngIf="loginForm.get('email').errors != null  && f.submitted">
+          <div *ngIf="loginForm.get('email').errors">
+            E-mail doit être une adresse e-mail valide
+          </div>
+        </div>
+       </div>
+       <div class="inputs-authentif form-group" *ngIf="email_valid == false">
+         <input type="text" class="form-control shadow" (keyup)="getValidationNumber($event)" maxlength="8" placeholder="Code de validation">
+         <div class="errors-danger mt-1" *ngIf="validation_code == false">
+              Code de validation invalide ou expiré
+        </div>
+         <div class="info-email mt-1">
+          Veuillez entrer le code de validation à 8 caractères que nous venons de vous envoyer à <b>{{loginForm.value.email}}</b>,
+          <a class="text-decoration-underline text-danger"><span *ngIf="counter != null; else counterNull">Renvoyer dans <b>{{ counter }}</b> </span></a>
+          <ng-template #counterNull>
+            <a (click)="onSubmit()" class="text-decoration-underline text-danger link-renvoyer"><span><b>Renvoyer le code de validation</b> </span></a>
+          </ng-template>
+
+        </div>
+       </div>
+       <div class="inputs-authentif form-group">
+         <input type="password" class="form-control" formControlName="password" placeholder="Mot de passe" required minlength="6">
+         <div class="errors-danger mt-1" *ngIf="loginForm.get('password').errors != null  && f.submitted">
+          <div *ngIf="loginForm.get('password').errors['required']">Mot de passe est requis</div>
+          <div *ngIf="loginForm.get('password').errors['minlength']">
+            Le mot de passe doit comporter au moins 6 caractères
+          </div>
+        </div>
+       </div>
+       <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+        L'inscription a échoué ! <br> {{ errorMessage }}
+      </div><br>
+      <div class="alert alert-success" *ngIf="isSuccessful">
+        Votre inscription est réussie !
+        <br>
+      </div>
+       <button mat-stroked-button type="submit" class="btn btn_reserver btn-authentif-register">
+       {{email_valid == true ? "Créer mon compte" : "Suivant"}}
+      </button> <br>
+     </form>
+     <button mat-raised-button class="gmail-btn mt-2" (click)="googleLogIn()">
+      <div class="d-flex">
+        <div><img src="../../../assets/images/gmail.svg" alt=""></div>
+        <div class="ps-2">
+          <span>Continuer avec Google</span>
+        </div>
+      </div>
+    </button>
+     <h5 class="login-inscrit mt-3">Vous êtes déjà inscrit? <span (click)="connectez()">Connectez-vous</span></h5>
+   </div>

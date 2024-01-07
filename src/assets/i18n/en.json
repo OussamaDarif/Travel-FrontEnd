@@ -1,0 +1,39 @@
+{
+  "HOME": {
+    "TITLE": "Exceptional accommodation throughout Morocco with high-end services",
+    "DECOUVREZ_LOGEMENT": "Discover our accommodations",
+    "NAVBAR": {
+      "NOS_LOGEMENT": "Our Accommodations",
+      "NOS_SERVICES": "Our services",
+      "DEVENIR_CLIENT": "How to become a customer?"
+    },
+    "MENU": {
+      "ACCUEIL": "Home",
+      "NOS_LOGEMENT": "Accommodations",
+      "NOS_SERVICES": "Services",
+      "LOGOUT": "Sign out",
+      "LOGIN": "Login"
+    },
+    "SEARCHBAR": {
+      "ARRIVEE": "ARRIVAL",
+      "DEPART": "DEPARTURE",
+      "VOYAGEURS": "TRAVELERS",
+      "ADRESSE_PH": "Where are you going ?",
+      "DATE_PH": "Add date",
+      "VOYAGEURS_PH": "0 Adults, 0 Children, 0 Babies",
+      "ADULTES": "Adults",
+      "ADULTES_AGE": "13 and over",
+      "ENFANTS": "Children",
+      "ENFANTS_AGE": "From 2 to 12 years",
+      "BEBES": "Babies",
+      "BEBES_AGE": " - 2 years"
+    },
+    "SECTION1_TITLE": "Popular Destinations",
+    "SECTION2_TITLE": "Discover Travel by rec",
+    "CARD1_TITLE": "Unique accommodations for your trip",
+    "CARD2_TITLE": "An online concierge at your disposal for your trip",
+    "CARD1_BTN": "Discover our accommodations",
+    "CARD2_BTN": "Discover our services",
+    "FOOTER_TEXT": "Developed by "
+  }
+}

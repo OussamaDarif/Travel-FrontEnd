@@ -1,0 +1,145 @@
+<footer class="footer n-pr">
+  <div class="container-fluid">
+    <div class="row p-2">
+      <div class="col-md-5 col-sm-6">
+        <h3><b>A propos</b></h3><br>
+        <p>Travelbyrec est votre plateforme de réservation de logements uniques
+          avec des services haute gamme, une conciergerie de luxe à votre
+          disposition pour votre voyage au Maroc.</p>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <h3><b>TravelbyREC</b></h3><br>
+        <ul class="pb-3">
+          <li><a [routerLink]="['/nosLogements']" class="contactLink">Nos logements</a></li>
+          <li><a [routerLink]="['/nosServices']" class="contactLink">Nos services</a></li>
+          <li>
+            <a [routerLink]="['/authentification/register']" class="contactLink" *ngIf="!isLoggedIn && !userInfo">
+              Devenir client
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-4 col-sm-6">
+        <h3><b>Contactez-nous</b></h3><br>
+        <ul>
+          <li><a href="#" data-bs-toggle="modal" data-bs-target="#contactModalGlobal" class="contactLink">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-6 align_text">&copy; {{ currentDate | date : 'y':'fr-FR'}} Travelbyrec - {{ 'HOME.FOOTER_TEXT' | translate }} <a
+          href="http://invyscode.com" target="_blank" rel="noopener noreferrer" class="d-inline text-dark text-decoration-none"><strong>Invyscode</strong></a>
+      </div>
+      <div class="col-md-6 pt-4 pt-lg-0 pt-md-0">
+        <div class="icons_soc pe-4 align-items-center">
+          <div class="span_textf pe-3 d-flex align-items-center">
+            <mat-icon>language</mat-icon>
+            <span class="ps-2" *ngIf="navbar_filter.selected_language == 'fr'; else en_lng">
+              Français
+            </span>
+            <ng-template #en_lng>
+              <span class="ps-2">
+                English
+              </span>
+            </ng-template>
+          </div>
+          <div class="currency_menu pe-5">
+            <a id="Convertor" class="text-dark">{{navbar_filter.currency['symbol']}}</a>
+          </div>
+          <div>
+            <img src="../../../assets/images/iconfacebook.svg" alt="facebook" style="width: 20px;">
+            <!-- <img src="../../../assets/images/iconlinkedin.svg" alt="linkedin"> -->
+            <a href="https://www.instagram.com/travelbyrec/" target="_blank" rel="noopener noreferrer">
+              <img src="../../../assets/images/iconinstagram.svg" alt="instagram">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+<!-- Modal Contact -->
+<div class="modal fade" id="contactModalGlobal" tabindex="-1" aria-labelledby="contactModalGlobal" aria-hidden="true"
+  role="dialog" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content contact_modal">
+      <div>
+        <h5 class="title_modal" id="contactModalGlobal"><b>Contactez-nous</b></h5>
+        <button type="button" class="btn-close btn_close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <hr class="contact-hr">
+      <div class="modal-body contact_modal_body">
+        <form [formGroup]="contactForm">
+          <div class="row" data-aos="fade-up">
+            <div class="col-md-6 item_title row_inputs_contact" data-aos="fade-up">
+              <label class="form-control-label">NOM</label>
+              <input type="text" class="form-control" formControlName="nom" placeholder="Tapez votre nom">
+              <div class="errors-danger-contact mt-1" *ngIf="contactForm.get('nom').errors != null">
+                <div *ngIf="contactForm.get('nom').errors['required']">Le nom est requis</div>
+              </div>
+            </div>
+            <div class="col-md-6 item_title row_inputs_contact" data-aos="fade-up">
+              <label class="form-control-label">PRENOM</label>
+              <input type="text" class="form-control" formControlName="prenom" placeholder="Tapez votre prénom">
+              <div class="errors-danger-contact mt-1" *ngIf="contactForm.get('prenom').errors != null">
+                <div *ngIf="contactForm.get('prenom').errors['required']">Le prénom est requis</div>
+              </div>
+            </div>
+            <div class="col-md-6 item_title row_inputs_contact" data-aos="fade-up">
+              <label class="form-control-label">TELEPHONE</label>
+              <input type="text" class="form-control" formControlName="telephone"
+                placeholder="Tapez votre numéro de téléphone">
+              <div class="errors-danger-contact mt-1" *ngIf="contactForm.get('telephone').errors != null">
+                <div *ngIf="contactForm.get('telephone').errors['required']">Telephone est requis</div>
+              </div>
+              <!-- <div class="errors-danger mt-1" *ngIf="contactForm.get('NOM').errors != null">
+                  <div *ngIf="contactForm.get('TELEPHONE').errors['required']">TELEPHONE requis</div>
+                  <div *ngIf="contactForm.get('TELEPHONE').errors['minlength']">
+                    Mot de passe must be at least 6 characters
+                  </div>
+                </div> -->
+            </div>
+            <div class="col-md-6 item_title row_inputs_contact" data-aos="fade-up">
+              <label class="form-control-label">SUJET</label>
+              <input type="text" class="form-control" formControlName="sujet"
+                placeholder="Tapez le sujet de votre message">
+              <div class="errors-danger-contact mt-1" *ngIf="contactForm.get('sujet').errors != null">
+                <div *ngIf="contactForm.get('sujet').errors['required']">Sujet est requis</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 item_title textarea_input" data-aos="fade-up">
+              <label class="form-control-label">MESSAGE</label>
+              <textarea name="MESSAGE" class="form-control" formControlName="message" placeholder="Tapez votre message"
+                id="" cols="30" rows="5"></textarea>
+              <div class="errors-danger-contact mt-1" *ngIf="contactForm.get('message').errors != null">
+                <div *ngIf="contactForm.get('message').errors['required']">Message est requis</div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="row">
+          <div class="d-flex justify-content-between pt-3 mb-4 align-items-baseline respo-contactbtn">
+            <div>
+              <h3>Ou appellez nous sur le : <span class="tele-number"> <a href="tel:+212 761 06 85 15" class="contactLink">+212 761 06 85 15</a></span></h3>
+            </div>
+            <div class="float-end pt-4">
+              <div class="d-flex">
+                <button mat-stroked-button class="btn_effacer" data-bs-dismiss="modal">Annuler</button>
+                <button mat-stroked-button class="btn_envoyer" (click)="onClickEnvoyer()"
+                  [disabled]="contactForm.invalid">Envoyer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

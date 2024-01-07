@@ -1,0 +1,174 @@
+  <div class="thanks-card pt-5 p-3 mt-5 mt-lg-0" *ngIf="reservation">
+    <h1 class="title_logement mb-1">Votre résérvation est confirmé</h1>
+    <div class="row py-4">
+      <div class="col-md-4 col-6 padd-items" data-aos="fade-right">
+        <label class="form-control-label"><strong>Résérvation N° :</strong> {{reservation.reservation_number}}</label>
+      </div>
+      <div class="title_border border_hight mb-2"></div>
+      <div class="col-md-4 col-6 padd-items" data-aos="fade-right" style="max-width: 130px;">
+        <label class="form-control-label"><strong>Voyageurs :</strong> {{reservation.voyageurs}}</label>
+      </div>
+      <div class="title_border border_hight mb-2"></div>
+      <div class="col-md-4 col-6 padd-items" data-aos="fade-right">
+        <label class="form-control-label"><strong>Prix Total :</strong>
+          {{convertCurrency(reservation.prix_total)['price']}} {{convertCurrency(reservation.prix_total)['price_symbol']}}/TTC
+        </label>
+      </div>
+    </div>
+    <div class="card card_paiement">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+
+              <div id="carouselExampleControls" class="carousel slide mb-3" data-ride="carousel" *ngIf="reservation.id_logement['photos'].length > 0; else default_img">
+                <div class="carousel-indicators">
+                </div>
+                <div class="carousel-inner" role="listbox">
+                  <div class="carousel-item" *ngFor="let result of reservation.id_logement['photos']; let i_lg = index" [ngClass]="{'active': i_lg == Indicator ||  i_lg == 0}" >
+                  <div class="img">
+                    <img [src]="environment_host + result" title="TravelByrec"  class="img_carousel img_logements"/>
+                  </div>
+                    <div class="indicateurs-carousel" *ngIf="i_lg < 11; else show_static_indic_thanks">
+                      <ng-container *ngFor="let indicateur of reservation.id_logement['photos']; let indic = index">
+                        <div class="indicateur-carousel" [ngClass]="{'active': i_lg == indic,'d-none': indic > 10 }">
+                        </div>
+                      </ng-container>
+                    </div>
+                    <ng-template #show_static_indic_thanks>
+                      <div class="indicateurs-carousel">
+                        <ng-container *ngFor="let indicateur of reservation.id_logement['photos']; let indic = index">
+                          <div class="indicateur-carousel" [ngClass]="{'active': indic == 10,'d-none': indic > 10 }">
+                          </div>
+                        </ng-container>
+                      </div>
+                    </ng-template>
+
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev" (click)="prevBtn()">
+                  <span class="material-icons navigat_btns">arrow_back</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next" (click)="nextBtn()">
+                  <span class="material-icons navigat_btns">arrow_forward</span>
+                </button>
+              </div>
+              <ng-template #default_img>
+                <div class="img">
+                  <img class="img_carousel" src="../../../assets/images/default.jpg"  accept="image/*">
+                </div>
+              </ng-template>
+
+
+              <div class="text-center mt-4 mb-4">
+                <span>Service clientèle </span><br>
+                <button mat-button class="btn_contactez mt-1"><a href="tel:+212 761 06 85 15" class="text-white text-decoration-none">+212 761 06 85 15</a></button>
+              </div>
+            </div>
+            <div class="col-md-6 pe-2 pe-sm-5">
+              <h3><a href="{{environment_hostFront}}/detailsHebergement/{{reservation.id_logement.slug}}" target="_blank" class="text-dark">
+                    {{reservation.id_logement.title}}
+                </a>
+              </h3>
+              <hr class="add_hr">
+
+              <div class="mb-3 sous-s-tile">
+                <span class="mb-4 sous_titlel">Date de résérvation</span><br>
+                <span><span class="material-icons icon_equipm">calendar_month</span><span>Arrivée :  {{ reservation.date_arrivee | date :'longDate':'fr-FR'}} </span></span><br>
+                  <span><span class="material-icons icon_equipm">calendar_month</span><span>Départ : {{ reservation.date_depart | date :'longDate':'fr-FR'}} </span></span>
+              </div>
+              <div class="mb-3 sous-s-tile">
+                <span class="mb-4 sous_titlel">Nombre de voyageurs</span><br>
+                <span><span class="material-icons icon_equipm">escalator_warning</span><span> {{reservation.voyageurs}} Voyageurs</span></span>
+              </div>
+
+              <div>
+                <div class="card-calcul">
+                  <div>
+                    <span class="sous_titlel">
+                      {{convertCurrency(reservation.id_logement.price)['price_symbol']}} {{convertCurrency(reservation.id_logement.price)['price']}}  x {{Difference_In_Days}} nuits
+                    </span>
+                    <div class="float-end">
+                      <span class="text-font-w">
+                        {{convertCurrency(reservation.id_logement.price)['price_symbol']}} {{convertCurrency(reservation.id_logement.price)['price'] * Difference_In_Days}}
+                      </span>
+                    </div>
+                  </div>
+                  <div style="color: #CD9257;" *ngIf="reservation.id_logement.reduction > 0">
+                    <span class="sous_titlel">Réduction</span>
+                    <div class="float-end">
+                      <span class="text-font-w">
+                        -{{convertCurrency(reservation.id_logement.reduction)['price_symbol']}} {{convertCurrency(reservation.id_logement.reduction)['price']}}
+                      </span>
+                    </div>
+                  </div>
+                  <div *ngIf="reservation.id_logement.cleaning_fees > 0">
+                    <span class="sous_titlel">Frais de ménage</span>
+                    <div class="float-end">
+                      <span class="text-font-w">
+                        {{convertCurrency(reservation.id_logement.cleaning_fees)['price_symbol']}} {{convertCurrency(reservation.id_logement.cleaning_fees)['price']}}
+                      </span>
+                    </div>
+                  </div>
+                  <div *ngIf="reservation.id_logement.service_fees > 0">
+                    <span class="sous_titlel">Frais de service</span>
+                    <div class="float-end">
+                      <span class="text-font-w">
+                        {{convertCurrency(reservation.id_logement.service_fees)['price_symbol']}} {{convertCurrency(reservation.id_logement.service_fees)['price']}}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <hr style="color: rgb(0 0 0 / 26%);">
+
+                <div class="py-2 text-center" *ngIf="reservation.id_logement['services_included'].length > 0">_____Services inclus_____</div>
+
+              <div>
+                <div class="card-calcul">
+                  <ng-container  *ngFor="let service_inclus of reservation.id_logement['services_included']">
+                    <div style="color: #CD9257;">
+                      <span class="text-font-w" title="{{service_inclus.name}}">
+                        <span class="material-icons done">done</span>{{service_inclus.name}}</span>
+                        <div class="float-end">
+                          <span>
+                            {{service_inclus.price > 0 ? convertCurrency(service_inclus.price)['price_symbol'] + ' ' + convertCurrency(service_inclus.price)['price'] :  "" }}
+                          </span>
+                          <span *ngIf="service_inclus.price == 0 " class="text-decoration-underline">{{service_inclus.unit_measure}}</span>
+                        </div>
+                    </div>
+                  </ng-container>
+                  <div class="py-2 text-center" *ngIf="reservation.services.length > 0">_____Services ajoutés_____</div>
+                  <ng-container  *ngFor="let service_ajouter of reservation.services">
+                    <div>
+                      <span class="text-font-w" title="{{service_ajouter.name}}">
+                        <span class="material-icons done text-dark">done</span>{{service_ajouter.name}}</span>
+                        <div class="float-end">
+                          <span>
+                            {{service_ajouter.sous_total > 0 ? convertCurrency(service_ajouter.sous_total)['price_symbol'] + ' ' + convertCurrency(service_ajouter.sous_total)['price']:  "" }}
+                          </span>
+                          <span *ngIf="service_ajouter.sous_total == 0 " class="text-decoration-underline">{{service_ajouter.unit_measure}}</span>
+                        </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+
+            </div>
+
+
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <ngx-spinner
+    bdColor="rgba(51,51,51,0.8)"
+    size="default"
+    color="#fff"
+    type="line-scale-pulse-out-rapid">
+    <p class="spinner-styles"> Chargement... </p>
+  </ngx-spinner>
+
+
+

@@ -1,0 +1,72 @@
+<div class="p-3 p-sm-5 mb-1 mb-sm-5">
+  <img src="../../../assets/images/travelbyrec.svg" alt="Travel By Rec" class="logo" [routerLink]="['/']">
+  <h1 class="authentif-title pt-5">Bienvenue à nouveau sur <span>Travel By Rec</span> </h1>
+  <h5 class="login-sub-title">Se connecter à votre compte</h5>
+  <form [formGroup]="loginForm" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+    <div class="inputs-authentif form-group">
+      <input type="text" class="form-control shadow" formControlName="email" placeholder="Email" (keyup)="emailVerification($event)" required>
+      <div class="errors-danger mt-1" *ngIf="loginForm.get('email').errors != null  && f.submitted">
+        <div *ngIf="loginForm.get('email').errors">
+          E-mail doit être une adresse e-mail valide
+        </div>
+      </div>
+    </div>
+    <div class="inputs-authentif form-group">
+      <input type="password" class="form-control shadow" formControlName="password" placeholder="Mot de passe" required minlength="6">
+      <div class="errors-danger mt-1" *ngIf="loginForm.get('password').errors != null  && f.submitted">
+        <div *ngIf="loginForm.get('password').errors['required']">Mot de passe est requis</div>
+        <div *ngIf="loginForm.get('password').errors['minlength']">
+          Le mot de passe doit comporter au moins 6 caractères
+        </div>
+      </div>
+    </div>
+    <h5 class="login-mdp-oblie mb-0" *ngIf="show_mdp_oublie == true"><a href="#" data-bs-toggle="modal"
+       data-bs-target="#changePasswordModal" (click)="showForgotPassword()">Mot de passe oublié ? </a></h5> <br>
+    <button mat-stroked-button class="btn btn_reserver btn-authentif">Se connecter</button> <br>
+    <div class="form-group">
+      <div class="alert alert-danger" role="alert" *ngIf="f.submitted && isLoginFailed">
+        Échec de la connexion: {{ errorMessage }}
+      </div>
+    </div>
+  </form>
+  <button mat-raised-button class="gmail-btn mt-2" (click)="googleLogIn()">
+    <div class="d-flex">
+      <div><img src="../../../assets/images/gmail.svg" alt=""></div>
+      <div class="ps-2">
+        <span>Continuer avec Google</span>
+      </div>
+    </div>
+  </button>
+  <h5 class="login-inscrit mt-3">Vous n’êtes pas encore inscrit? <span
+      [routerLink]="['/authentification/register']">Inscrivez-vous</span></h5>
+</div>
+
+
+
+<!-- Mot de passe oublié -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModal" aria-hidden="true" role="dialog" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content contact_modal">
+      <div>
+        <h5 class="title_modal" id="changePasswordModal"><b>Mot de passe oublié ?</b></h5>
+        <button type="button" class="btn-close btn_close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <hr class="contact-hr">
+      <div class="modal-body p-4 pb-2">
+        <form [formGroup]="changePasswordForm">
+            <div class="item_title row_inputs_contact">
+              <label class="form-control-label">Veuillez saisir votre adresse e-mail <b class="text-danger">*</b></label>
+              <input type="email" class="form-control shadow mt-2" formControlName="email" placeholder="Adresse email">
+              <div class="errors-danger-mdp me-3" *ngIf="changePasswordForm.get('email').errors != null">
+                <div *ngIf="changePasswordForm.get('email').errors['required']">Adresse email requis</div>
+              </div>
+            </div>
+            <div class="modal-footer mt-4 p-1">
+              <!-- <button mat-stroked-button class="btn btn-light" data-bs-dismiss="modal">Annuler</button> -->
+              <button mat-stroked-button class="btn btn_reserver btn-envoyer p-3 mt-2" (click)="onClickEnvoyer()" data-bs-dismiss="modal" [disabled]="changePasswordForm.invalid">Envoyer</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,599 @@
+<div>
+    <div class="row">
+      <div class="background_img">
+        <div class="row">
+          <div class="col-md-6 col-sm-6">
+            <div id="title_home">
+              <span class="title" data-aos="fade-right">Nos services haute gamme</span> <br>
+              <h1 class="title_two" data-aos="fade-right">Améliorent votre voyage</h1>
+              <p class="text_s" data-aos="fade-right">En plus des hébergements, TravelbyREC met à votre disposition de multiples services, voués à améliorer votre séjour</p>
+              <!-- <button mat-button class="btn" data-aos="fade-up">Découvrez nos services</button> -->
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-6 py-4">
+              <img src="../../../assets/images/service_bg.png" alt="Nos services haute gamme" class="services_bg">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <ng-container *ngIf="categories.length > 0; else showShimmer">
+        <mat-tab-group mat-align-tabs="center" animationDuration="1000ms">
+          <ng-container *ngFor="let categorie of categories; let i = index">
+            <mat-tab label="{{categorie.name}}">
+              <div class="row justify-content-center services-boucle">
+                  <ng-container *ngFor="let service of categorie.services; let i = index">
+                    <div class="col-md-3 col-sm-4 pb-4">
+                      <div class="services-card">
+                        <div>
+                          <div class="card-header-image">
+                            <img [src]="!service.image ?  '../../../../assets/images/default.jpg'  : environment_host + service.image" alt="coiffure rabat" title="coiffure rabat">
+                          </div>
+                          <div class="card-content">
+                            <h3>{{service.name}}</h3>
+                            <p [ngClass]="{'limit-lines': service.description.length > 100}">{{service.description ? service.description : "......"}}</p>
+                            <input type="checkbox" class="expand-btn" *ngIf="service.description.length > 100">
+                          </div>
+                        </div>
+                        <div class="card_footer">
+                          <div class="row">
+                            <div class="col-md-6 pb-2">
+                              <button mat-button class="btn btn_mad">
+                                <span class="price-mad">
+                                  <span class="prix_s">
+                                    {{service.price > 0 ? convertCurrency(service.price)['price'] + ' ' + convertCurrency(service.price)['price_symbol'] :  "" }}
+                                  </span>
+                                  <span class="value_s">{{service.unit_measure}}</span>
+                                </span>
+                              </button>
+                            </div>
+                            <div class="col-md-6 pb-2">
+                              <button mat-button class="btn_ajouter" (click)="onClickajouter(service)" *ngIf="!service.disable; else disable_input">Ajouter</button>
+                              <ng-template #disable_input>
+                                <button mat-button class="btn_ajouter text-white" disabled>Service inclus</button>
+                              </ng-template>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </mat-tab>
+            </ng-container>
+        </mat-tab-group>
+      </ng-container>
+
+      <ng-template #showShimmer>
+        <mat-tab-group mat-align-tabs="center" animationDuration="1000ms">
+          <ng-container *ngFor="let categorie of categories_shimmer; let i = index">
+            <mat-tab label="{{categorie}}">
+              <div class="row justify-content-center services-boucle">
+                <ng-container *ngFor="let element of [0,1,2,3,4,5,6,7]; let i = index">
+                  <div class="col-md-3 col-sm-4 pb-4">
+                    <div class="services-card">
+                      <div>
+                        <div class="card-header-image shine"></div>
+                        <div class="card-content">
+                          <div class="shine lines"></div>
+                          <div class="shine paragraph"></div>
+                          <div class="shine paragraph"></div>
+                          <div class="shine paragraph"></div>
+                          <div class="shine paragraph w-75"></div>
+                        </div>
+                      </div>
+                      <div class="card_footer">
+                        <div class="row">
+                          <div class="col-md-6 pb-2">
+                              <div class="btn btn_mad shine"></div>
+                          </div>
+                          <div class="col-md-6 pb-2">
+                            <div class="btn btn_mad shine"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </mat-tab>
+          </ng-container>
+        </mat-tab-group>
+      </ng-template>
+    </div>
+
+  <div class="shopping-card">
+    <div class="h-100 d-flex justify-content-between flex-column p-3">
+      <div>
+        <div class="my-2 mini-card-title">
+          <h1>Prestations Choisies</h1>
+          <div class="close_icon close-mini-cart"><span class="material-icons">close</span></div>
+        </div>
+        <mat-accordion class="example-headers-align">
+            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle *ngIf="filter_services('Par heure').length > 0">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Par heure
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div class="table-container  mat-elevation-z8">
+                <table mat-table [dataSource]="filter_services('Par heure')">
+
+                  <ng-container matColumnDef="Service">
+                    <th mat-header-cell *matHeaderCellDef> Service </th>
+                    <td mat-cell *matCellDef="let element" class="py-2" style="max-width: 184px;"> {{element.name}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Quantité">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Quantité </th>
+                    <td mat-cell *matCellDef="let element;let i = index" class="text-center">
+
+                      <div>
+                        <button  class="btn btn_quantit" (click)="onClickminus(element)"><mat-icon class="quantit_icon">remove</mat-icon></button>
+                        {{element.quantite}}
+                        <button class="btn btn_quantit" (click)="onClickplus(element)"><mat-icon class="quantit_icon">add</mat-icon></button>
+                      </div>
+
+                   </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Sous-total">
+                    <th mat-header-cell *matHeaderCellDef class="ps-4 text-center"> Sous-total </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{convertCurrency(element.sous_total)['price']}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element;let i = index">
+                      <button mat-button class="btn btn-link btn_delet" (click)="onClickDelete(element)"><mat-icon>delete</mat-icon></button>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row" ></tr>
+                </table>
+              </div>
+
+              <!-- <mat-action-row>
+                <button mat-button color="primary" (click)="nextStep()">suivant</button>
+              </mat-action-row> -->
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle *ngIf="filter_services('Par jour').length > 0">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Par jour
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div class="table-container  mat-elevation-z8">
+                <table mat-table [dataSource]="filter_services('Par jour')">
+
+                  <ng-container matColumnDef="Service">
+                    <th mat-header-cell *matHeaderCellDef> Service </th>
+                    <td mat-cell *matCellDef="let element" class="py-2" style="max-width: 184px;"> {{element.name}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Quantité">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Quantité </th>
+                    <td mat-cell *matCellDef="let element;let i = index" class="text-center">
+
+                      <div>
+                        <button  class="btn btn_quantit" (click)="onClickminus(element)"><mat-icon class="quantit_icon">remove</mat-icon></button>
+                        {{element.quantite}}
+                        <button class="btn btn_quantit" (click)="onClickplus(element)"><mat-icon class="quantit_icon">add</mat-icon></button>
+                      </div>
+
+                   </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Sous-total">
+                    <th mat-header-cell *matHeaderCellDef class="ps-4 text-center"> Sous-total </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{convertCurrency(element.sous_total)['price']}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element;let i = index">
+                      <button mat-button class="btn btn-link btn_delet" (click)="onClickDelete(element)"><mat-icon>delete</mat-icon></button>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row" ></tr>
+                </table>
+              </div>
+
+              <!-- <mat-action-row>
+                <button mat-button color="warn" (click)="prevStep()">Précédent</button>
+                <button mat-button color="primary" (click)="nextStep()">suivant</button>
+              </mat-action-row> -->
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle *ngIf="filter_services('Par séjour').length > 0">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Par séjour
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="table-container  mat-elevation-z8">
+                <table mat-table [dataSource]="filter_services('Par séjour')">
+
+                  <ng-container matColumnDef="Service">
+                    <th mat-header-cell *matHeaderCellDef> Service </th>
+                    <td mat-cell *matCellDef="let element" class="py-2" style="max-width: 184px;"> {{element.name}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Quantité">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Quantité </th>
+                    <td mat-cell *matCellDef="let element;let i = index" class="text-center">
+
+                      <div>
+                        <button  class="btn btn_quantit" (click)="onClickminus(element)"><mat-icon class="quantit_icon">remove</mat-icon></button>
+                        {{element.quantite}}
+                        <button class="btn btn_quantit" (click)="onClickplus(element)"><mat-icon class="quantit_icon">add</mat-icon></button>
+                      </div>
+
+                   </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Sous-total">
+                    <th mat-header-cell *matHeaderCellDef class="ps-4 text-center"> Sous-total </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{convertCurrency(element.sous_total)['price']}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element;let i = index">
+                      <button mat-button class="btn btn-link btn_delet" (click)="onClickDelete(element)"><mat-icon>delete</mat-icon></button>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row" ></tr>
+                </table>
+              </div>
+
+              <!-- <mat-action-row>
+                <button mat-button color="warn" (click)="prevStep()">Précédent</button>
+                <button mat-button color="primary" (click)="nextStep()">suivant</button>
+              </mat-action-row> -->
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle *ngIf="filter_services('Par semaine').length > 0">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Par semaine
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="table-container  mat-elevation-z8">
+                <table mat-table [dataSource]="filter_services('Par semaine')">
+
+                  <ng-container matColumnDef="Service">
+                    <th mat-header-cell *matHeaderCellDef> Service </th>
+                    <td mat-cell *matCellDef="let element" class="py-2" style="max-width: 184px;"> {{element.name}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Quantité">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Quantité </th>
+                    <td mat-cell *matCellDef="let element;let i = index" class="text-center">
+
+                      <div>
+                        <button  class="btn btn_quantit" (click)="onClickminus(element)"><mat-icon class="quantit_icon">remove</mat-icon></button>
+                        {{element.quantite}}
+                        <button class="btn btn_quantit" (click)="onClickplus(element)"><mat-icon class="quantit_icon">add</mat-icon></button>
+                      </div>
+
+                   </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Sous-total">
+                    <th mat-header-cell *matHeaderCellDef class="ps-4 text-center"> Sous-total </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{convertCurrency(element.sous_total)['price']}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element;let i = index">
+                      <button mat-button class="btn btn-link btn_delet" (click)="onClickDelete(element)"><mat-icon>delete</mat-icon></button>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row" ></tr>
+                </table>
+              </div>
+              <!-- <mat-action-row>
+                <button mat-button color="warn" (click)="prevStep()">Précédent</button>
+                <button mat-button color="primary" (click)="nextStep()">suivant</button>
+              </mat-action-row> -->
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle *ngIf="filter_services('Par mois').length > 0">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Par mois
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="table-container  mat-elevation-z8">
+                <table mat-table [dataSource]="filter_services('Par mois')">
+
+                  <ng-container matColumnDef="Service">
+                    <th mat-header-cell *matHeaderCellDef> Service </th>
+                    <td mat-cell *matCellDef="let element" class="py-2" style="max-width: 184px;"> {{element.name}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Quantité">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Quantité </th>
+                    <td mat-cell *matCellDef="let element;let i = index" class="text-center">
+
+                      <div>
+                        <button  class="btn btn_quantit" (click)="onClickminus(element)"><mat-icon class="quantit_icon">remove</mat-icon></button>
+                        {{element.quantite}}
+                        <button class="btn btn_quantit" (click)="onClickplus(element)"><mat-icon class="quantit_icon">add</mat-icon></button>
+                      </div>
+
+                   </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Sous-total">
+                    <th mat-header-cell *matHeaderCellDef class="ps-4 text-center"> Sous-total </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{convertCurrency(element.sous_total)['price']}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element;let i = index">
+                      <button mat-button class="btn btn-link btn_delet" (click)="onClickDelete(element)"><mat-icon>delete</mat-icon></button>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row" ></tr>
+                </table>
+              </div>
+              <!-- <mat-action-row>
+                <button mat-button color="warn" (click)="prevStep()">Précédent</button>
+                <button mat-button color="primary" (click)="nextStep()">suivant</button>
+              </mat-action-row> -->
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle *ngIf="filter_services('Par année').length > 0">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Par année
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="table-container  mat-elevation-z8">
+                <table mat-table [dataSource]="filter_services('Par année')">
+
+                  <ng-container matColumnDef="Service">
+                    <th mat-header-cell *matHeaderCellDef> Service </th>
+                    <td mat-cell *matCellDef="let element" class="py-2" style="max-width: 184px;"> {{element.name}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Quantité">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Quantité </th>
+                    <td mat-cell *matCellDef="let element;let i = index" class="text-center">
+
+                      <div>
+                        <button  class="btn btn_quantit" (click)="onClickminus(element)"><mat-icon class="quantit_icon">remove</mat-icon></button>
+                        {{element.quantite}}
+                        <button class="btn btn_quantit" (click)="onClickplus(element)"><mat-icon class="quantit_icon">add</mat-icon></button>
+                      </div>
+
+                   </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Sous-total">
+                    <th mat-header-cell *matHeaderCellDef class="ps-4 text-center"> Sous-total </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{convertCurrency(element.sous_total)['price']}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element;let i = index">
+                      <button mat-button class="btn btn-link btn_delet" (click)="onClickDelete(element)"><mat-icon>delete</mat-icon></button>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row" ></tr>
+                </table>
+              </div>
+              <!-- <mat-action-row>
+                <button mat-button color="warn" (click)="prevStep()">Précédent</button>
+                <button mat-button color="primary" (click)="nextStep()">suivant</button>
+              </mat-action-row> -->
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)" hideToggle *ngIf="filter_services('Par prestation').length > 0">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Par prestation
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div class="table-container  mat-elevation-z8">
+                <table mat-table [dataSource]="filter_services('Par prestation')">
+
+                  <ng-container matColumnDef="Service">
+                    <th mat-header-cell *matHeaderCellDef> Service </th>
+                    <td mat-cell *matCellDef="let element" class="py-2" style="max-width: 184px;"> {{element.name}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Quantité">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Quantité </th>
+                    <td mat-cell *matCellDef="let element;let i = index" class="text-center">
+
+                      <div>
+                        <button  class="btn btn_quantit" (click)="onClickminus(element)"><mat-icon class="quantit_icon">remove</mat-icon></button>
+                        {{element.quantite}}
+                        <button class="btn btn_quantit" (click)="onClickplus(element)"><mat-icon class="quantit_icon">add</mat-icon></button>
+                      </div>
+
+                   </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Sous-total">
+                    <th mat-header-cell *matHeaderCellDef class="ps-4 text-center"> Sous-total </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{convertCurrency(element.sous_total)['price']}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element;let i = index">
+                      <button mat-button class="btn btn-link btn_delet" (click)="onClickDelete(element)"><mat-icon>delete</mat-icon></button>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row" ></tr>
+                </table>
+              </div>
+              <!-- <mat-action-row>
+                <button mat-button color="warn" (click)="prevStep()">Précédent</button>
+                <button mat-button color="primary" (click)="nextStep()">suivant</button>
+              </mat-action-row> -->
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle *ngIf="filter_services('Sur demande').length > 0">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Sur demande
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div class="table-container  mat-elevation-z8">
+                <table mat-table [dataSource]="filter_services('Sur demande')">
+
+                  <ng-container matColumnDef="Service">
+                    <th mat-header-cell *matHeaderCellDef> Service </th>
+                    <td mat-cell *matCellDef="let element" class="py-2" style="max-width: 184px;"> {{element.name}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element;let i = index">
+                      <button mat-button class="btn btn-link btn_delet" (click)="onClickDelete(element)"><mat-icon>delete</mat-icon></button>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsT2; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsT2;" class="example-element-row" ></tr>
+                </table>
+              </div>
+              <!-- <mat-action-row>
+                <button mat-button color="warn" (click)="prevStep()">Précédent</button>
+                <button mat-button color="primary" (click)="nextStep()">suivant</button>
+              </mat-action-row> -->
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)" hideToggle *ngIf="filter_services('Gratuit').length > 0">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Gratuit
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="table-container  mat-elevation-z8">
+                <table mat-table [dataSource]="filter_services('Gratuit')">
+
+                  <ng-container matColumnDef="Service">
+                    <th mat-header-cell *matHeaderCellDef> Service </th>
+                    <td mat-cell *matCellDef="let element" class="py-2" style="max-width: 184px;"> {{element.name}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element;let i = index">
+                      <button mat-button class="btn btn-link btn_delet" (click)="onClickDelete(element)"><mat-icon>delete</mat-icon></button>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsT2; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsT2;" class="example-element-row" ></tr>
+                </table>
+              </div>
+              <!-- <mat-action-row>
+                <button mat-button color="warn" (click)="prevStep()">Précédent</button>
+                <button mat-button color="primary" (click)="nextStep()">suivant</button>
+              </mat-action-row> -->
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 9" (opened)="setStep(9)" hideToggle *ngIf="filter_services('Autres types').length > 0">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Autres types
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div class="table-container  mat-elevation-z8">
+                <table mat-table [dataSource]="filter_services('Autres types')">
+
+                  <ng-container matColumnDef="Service">
+                    <th mat-header-cell *matHeaderCellDef> Service </th>
+                    <td mat-cell *matCellDef="let element" class="py-2" style="max-width: 184px;"> {{element.name}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Quantité">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Quantité </th>
+                    <td mat-cell *matCellDef="let element;let i = index" class="text-center">
+
+                      <div>
+                        <button  class="btn btn_quantit" (click)="onClickminus(element)"><mat-icon class="quantit_icon">remove</mat-icon></button>
+                        {{element.quantite}}
+                        <button class="btn btn_quantit" (click)="onClickplus(element)"><mat-icon class="quantit_icon">add</mat-icon></button>
+                      </div>
+
+                   </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Sous-total">
+                    <th mat-header-cell *matHeaderCellDef class="ps-4 text-center"> Sous-total </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{convertCurrency(element.sous_total)['price']}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element;let i = index">
+                      <button mat-button class="btn btn-link btn_delet" (click)="onClickDelete(element)"><mat-icon>delete</mat-icon></button>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row" ></tr>
+                </table>
+              </div>
+              <!-- <mat-action-row>
+                <button mat-button color="warn" (click)="prevStep()">Précédent</button>
+                <button mat-button color="primary" (click)="nextStep()">Suivant</button>
+              </mat-action-row> -->
+            </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+
+        <div class="total_section">
+          <span id="total">
+            <div class="d-flex justify-content-between flex-wrap py-3">
+              <span class="total_text">Total : </span> <br>
+              <span class="title_mad">
+                {{convertCurrency(calculTotal)['price']}}{{convertCurrency(calculTotal)['price_symbol']}}
+              </span>
+            </div>
+              <button mat-button type="button" class="btn_total" [disabled]="ELEMENTS_DATA.length === 0" [routerLink]="['/confirmationLogement']" (click)="onClick_Confirmer()">Confirmer</button>
+          </span>
+        </div>
+    </div>
+  </div>
+
+  <div class="bottom-mini-cart show-mini-cart">
+    <a href="javascript:void(0)" class="mini-cart">
+      <span [ngClass]="{'dot-clignote': ELEMENTS_DATA.length > 0}"></span>
+      <span class="material-icons">
+        shopping_cart
+      </span>
+    </a>
+  </div>
+  <div class="active-overlay-minicart"></div>
+</div>

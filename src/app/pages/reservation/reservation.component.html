@@ -1,0 +1,273 @@
+<div class="parent-div pt-5 p-3 mt-5 mt-lg-0">
+  <div class="row parent-row">
+    <div class="col-md-8">
+
+      <h1 class="title_logement">Confirmation et paiement</h1>
+
+
+      <div class="row p-2">
+        <div class="col-md-6">
+          <h1 class="title_logement" >Récaputilatif</h1>
+          <div class="mb-3 sous-s-tile">
+            <span class="mb-4" class="sous_titlel">Date de résérvation</span><br>
+
+            <span><span class="material-icons icon_equipm">calendar_month</span><span>Arrivée : {{ arrivee_date | date :'longDate':'fr-FR'}} <span class="edit-btn-data" (click)="view_logement(logement_reserver)">Modifier</span></span></span><br>
+            <span><span class="material-icons icon_equipm">calendar_month</span><span>Départ : {{ depart_date | date :'longDate':'fr-FR'}} <span class="edit-btn-data" (click)="view_logement(logement_reserver)">Modifier</span></span></span>
+          </div>
+          <div class="mb-3 sous-s-tile">
+            <span class="mb-4" class="sous_titlel">Nombre de voyageurs</span><br>
+            <span><span class="material-icons icon_equipm">escalator_warning</span><span>{{searchbarService.searchbar_Data.voyageurs}} Voyageurs <span class="edit-btn-data" (click)="view_logement(logement_reserver)">Modifier</span> </span></span>
+          </div>
+
+          <hr class="add_hr my-4">
+          <h1 class="title_logement" >Conditions d’annulation</h1>
+          <p class="ps-0">Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant
+            impression. <br><br>
+            Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500.</p>
+        </div>
+        <div class="col-md-6">
+          <h1 class="title_logement" >Services  <span class="add-service-btn"  [routerLink]="['/nosServices']">(Ajouter un service)</span></h1>
+          <div class="row">
+            <ng-container  *ngFor="let services_inclu of logement_reserver['services_included']">
+              <div class="col-md-6 col-sm-6">
+                <button mat-raised-button class="service-btns active">
+                  <div class="d-flex">
+                    <div><span class="material-icons icon-service">event_available</span></div>
+                    <div class="service-titls"  title="{{services_inclu.name}}">
+                      <span class="service-t">{{services_inclu.name}}</span>
+                      <span class="service-prix">
+                        {{services_inclu.price > 0 ? '1*' + convertCurrency(services_inclu.price)['price'] + ' ' + convertCurrency(services_inclu.price)['price_symbol'] + " / " :  "" }}
+                        {{services_inclu.unit_measure}}
+                      </span>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </ng-container>
+            <ng-container  *ngFor="let service of searchbarService.searchbar_Data.panier">
+              <div class="col-md-6 col-sm-6">
+                <button mat-raised-button class="service-btns">
+                  <div class="d-flex">
+                    <div><span class="material-icons icon-service">event_available</span></div>
+                    <div class="service-titls"  title="{{service.name}}">
+                      <span class="service-t">{{service.name}}</span>
+                      <span class="service-prix">
+                        {{service.prix_unit > 0 ? service.quantite + '*' + convertCurrency(service.prix_unit)['price'] + ' ' + convertCurrency(service.prix_unit)['price_symbol'] + " / " :  "" }}
+                        {{service.unit_measure}}
+                      </span>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </ng-container>
+          </div>
+          <hr class="add_hr">
+          <h1 class="title_logement" >Paiement</h1>
+          <mat-radio-group aria-label="Select an option" class="d-flex flex-column-reverse " [(ngModel)]="searchbarService.searchbar_Data.paiement_methode">
+            <button mat-raised-button class="paiement-btns">
+              <mat-radio-button value="CMI" (change)="selected_Paiement = $event.value">
+                <div class="d-flex align-items-center justify-content-center flex-wrap gap-3 ps-3 py-3 logos-securite">
+                  <img src="../../../assets/images/logo_cmi.png" alt="logo_cmi" class="mb-1">
+                  <img src="../../../assets/images/secure_code_logo.png" alt="secure_code_logo" class="mb-1">
+                  <img src="../../../assets/images/tn_verified_by_visa.png" alt="tn_verified_by_visa" class="mb-1">
+                </div>
+              </mat-radio-button>
+            </button>
+            <!-- <button mat-raised-button class="paiement-btns">
+              <mat-radio-button value="paypal" (change)="selected_Paiement = $event.value"><span class="pe-5"><img src="../../../assets/images/paypal.svg" alt="TravelByRec" class="mb-1"></span></mat-radio-button>
+            </button> -->
+          </mat-radio-group>
+          <p class="desc-paiement">En sélectionnant le bouton ci-dessous, j'accepte les conditions suivantes : <br>
+           <span>Règlement intérieur de l'hôte, Exigences en matière de sécurité relatives au Covid-19 </span>et <span>Politique de remboursement des voyageurs.</span>
+          </p>
+          <button mat-stroked-button class="btn_reserver btn-payer" data-bs-toggle="modal" data-bs-target="#Confirmer_payer" *ngIf="selected_Paiement; else select_paiement">Confirmer et payer</button>
+          <ng-template #select_paiement>
+            <button mat-stroked-button class="btn_reserver btn-payer" disabled>Confirmer et payer</button>
+          </ng-template>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-4">
+        <div>
+          <div class="card card_paiement">
+            <div class="card-body">
+
+              <div>
+                <div id="carouselExampleControls" class="carousel slide mb-3" data-ride="carousel" *ngIf="logement_reserver.photos.length > 0; else default_img">
+                  <div class="carousel-indicators">
+                  </div>
+                  <div class="carousel-inner" role="listbox">
+                    <div class="carousel-item" *ngFor="let result of logement_reserver.photos; let i_lg = index" [ngClass]="{'active': i_lg == Indicator ||  i_lg == 0}" >
+                     <div class="img">
+                       <img [src]="environment_host + result" title="TravelByrec"  class="img_carousel img_logements"/>
+                     </div>
+                     <div class="indicateurs-carousel" *ngIf="i_lg < 11; else show_static_indic_map">
+                      <ng-container *ngFor="let indicateur of logement_reserver.photos; let indic = index">
+                        <div class="indicateur-carousel" [ngClass]="{'active': i_lg == indic,'d-none': indic > 10 }">
+                        </div>
+                      </ng-container>
+                    </div>
+                    <ng-template #show_static_indic_map>
+                      <div class="indicateurs-carousel">
+                        <ng-container *ngFor="let indicateur of logement_reserver.photos; let indic = index">
+                          <div class="indicateur-carousel" [ngClass]="{'active': indic == 10,'d-none': indic > 10 }">
+                          </div>
+                        </ng-container>
+                      </div>
+                    </ng-template>
+                    </div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev" (click)="prevBtn()">
+                    <span class="material-icons navigat_btns">arrow_back</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next" (click)="nextBtn()">
+                    <span class="material-icons navigat_btns">arrow_forward</span>
+                  </button>
+                </div>
+                <ng-template #default_img>
+                  <div class="img">
+                    <img class="img_carousel" src="../../../assets/images/default.jpg"  accept="image/*">
+                  </div>
+                </ng-template>
+
+
+                <span class="fixed_grade" *ngIf="global_rating > 0">
+                  <span class="justif_grade">
+                    <span class="material-icons grade">grade</span>
+                    <span>{{global_rating}}</span>
+                  </span>
+                </span>
+              </div>
+
+              <h3>{{logement_reserver.title}}</h3>
+
+              <hr class="add_hr">
+
+                <div class="card-calcul">
+                  <div>
+                    <span class="sous_titlel">
+                      {{convertCurrency(logement_reserver.price)['price_symbol']}} {{convertCurrency(logement_reserver.price)['price']}} x {{Difference_In_Days}} nuits
+                    </span>
+                    <div class="float-end">
+                      <span class="text-font-w">
+                        {{convertCurrency(logement_reserver.price)['price_symbol']}} {{convertCurrency(logement_reserver.price)['price'] * Difference_In_Days}}
+                      </span>
+                    </div>
+                  </div>
+                  <div style="color: #CD9257;" *ngIf="logement_reserver.reduction > 0">
+                    <span class="sous_titlel">Réduction</span>
+                    <div class="float-end">
+                      <span class="text-font-w">
+                        -{{convertCurrency(logement_reserver.reduction)['price_symbol']}} {{convertCurrency(logement_reserver.reduction)['price']}}
+                      </span>
+                    </div>
+                  </div>
+                  <div *ngIf="logement_reserver.cleaning_fees > 0">
+                    <span class="sous_titlel">Frais de ménage</span>
+                    <div class="float-end">
+                      <span class="text-font-w">
+                        {{convertCurrency(logement_reserver.cleaning_fees)['price_symbol']}} {{convertCurrency(logement_reserver.cleaning_fees)['price']}}
+                      </span>
+                    </div>
+                  </div>
+                  <div *ngIf="logement_reserver.service_fees > 0">
+                    <span class="sous_titlel">Frais de service</span>
+                    <div class="float-end">
+                      <span class="text-font-w">
+                        {{convertCurrency(logement_reserver.service_fees)['price_symbol']}} {{convertCurrency(logement_reserver.service_fees)['price']}}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <hr style="color: rgb(0 0 0 / 26%);">
+
+                <div class="py-2 text-center" *ngIf="logement_reserver['services_included'].length > 0">_____Services inclus_____</div>
+
+                <div>
+                  <div class="card-calcul">
+                    <ng-container  *ngFor="let service_inclus of logement_reserver['services_included']">
+                      <div style="color: #CD9257;">
+                        <span class="text-font-w" title="{{service_inclus.name}}">
+                          <span class="material-icons done">done</span>{{service_inclus.name}}</span>
+                        <div class="float-end">
+                          <span>
+                            {{service_inclus.price > 0 ? convertCurrency(service_inclus.price)['price_symbol'] + ' ' + convertCurrency(service_inclus.price)['price'] :  "" }}
+                          </span>
+                          <span *ngIf="service_inclus.price == 0 " class="text-decoration-underline">{{service_inclus.unit_measure}}</span>
+                        </div>
+                      </div>
+                    </ng-container>
+                    <div class="py-2 text-center" *ngIf="searchbarService.searchbar_Data.panier.length > 0">_____Services ajoutés_____</div>
+                    <ng-container  *ngFor="let service_ajouter of searchbarService.searchbar_Data.panier">
+                      <div>
+                        <span class="text-font-w" title="{{service_ajouter.name}}">
+                          <span class="material-icons done text-dark">done</span>{{service_ajouter.name}}</span>
+                        <div class="float-end">
+                          <span>
+                            {{service_ajouter.sous_total > 0 ? convertCurrency(service_ajouter.sous_total)['price_symbol'] + ' ' + convertCurrency(service_ajouter.sous_total)['price']:  "" }}
+                          </span>
+                          <span *ngIf="service_ajouter.sous_total == 0 " class="text-decoration-underline">{{service_ajouter.unit_measure}}</span>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+
+                  <hr  style="color: rgb(0 0 0 / 26%);margin-top: 30px;">
+
+                  <div class="mt-3 total_text">
+                    <span>TOTAL</span>
+                    <div class="float-end">
+                      <span>
+                        {{convertCurrency(prix_total)['price_symbol']}} {{convertCurrency(prix_total)['price']}}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+          </div>
+
+        </div>
+        <div class="text-center mt-4 mb-2">
+          <span>Vous avez des questions? </span><br>
+          <button mat-button class="btn_contactez mt-1" data-bs-toggle="modal"
+            data-bs-target="#contactModalGlobal">Contactez-nous</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+    <!--Payer-->
+  <div class="modal fade" id="Confirmer_payer" tabindex="-1" aria-labelledby="Confirmer_payer" aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content contact_modal">
+        <div>
+          <h5 class="title_modal bg-success title-modal-payer" id="Confirmer_payer"><b>Confirmation</b></h5>
+          <button type="button" class="btn-close float-end btn-close-payer" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <hr class="contact-hr">
+        <div class="modal-body">
+          Voulez-vous vraiment confirmer la réservation ?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary px-4 py-2 btn_payer" data-bs-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-success px-4 py-2 btn_payer" (click)="onClickPayer()"  data-bs-dismiss="modal">Confirmer</button>
+      </div>
+      </div>
+    </div>
+  </div>
+
+<!--Fin paiement-->
+
+
+<div #fs2jkKOEh29828_9bdkc id="fs2jkKOEh29828_9bdkc" class="d-none"></div>
+
+
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "default" color = "#fff" type="line-scale-pulse-out-rapid">
+<p class="spinner-styles"> Chargement... </p>
+</ngx-spinner>
+

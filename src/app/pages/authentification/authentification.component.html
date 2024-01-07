@@ -1,0 +1,41 @@
+<div class="container-fluid mx-0">
+  <div class="row">
+    <div class="col-md-6 p-0">
+        <router-outlet></router-outlet>
+        <div class="authentif-footer">
+          <div class="d-flex justify-content-between">
+              <span class="position-sticky">
+                    <mat-icon class="language_footer">language</mat-icon>
+                    <span style="padding-left: 31px;" *ngIf="navbar_filter.selected_language == 'fr'; else en_lng">
+                        Français
+                    </span>
+                    <ng-template #en_lng>
+                      <span style="padding-left: 31px;">
+                        English
+                    </span>
+                    </ng-template>
+
+              </span>
+              <div class="icons_soc">
+                  <img src="../../../assets/images/iconfacebook.svg" alt="facebook" style="width: 20px;">
+                  <!-- <img src="../../../assets/images/iconlinkedin.svg" alt="linkedin" > -->
+                  <a href="https://www.instagram.com/travelbyrec/" target="_blank" rel="noopener noreferrer">
+                    <img src="../../../assets/images/iconinstagram.svg" alt="instagram" >
+                  </a>
+              </div>
+          </div>
+        </div>
+    </div>
+    <div class="col-md-6 p-0 mobil-video d-none d-lg-block d-md-block">
+      <div class="video-section">
+        <!-- <img src="../../../assets/images/play-icon.svg" alt="" class="btn-play-pause" (click)="playPause()"> -->
+        <video id="video1" autoplay controls loop>
+          <source src="./../../../assets/videos/TravelByRec_MAROC.mp4" type="video/mp4">
+        </video>
+        <!-- <plyr style="width: 100%;height: 100%;display: grid;" plyrTitle="Video 1" [plyrPlaysInline]="true" [plyrOptions]="options"
+              [plyrSources]="youtubeSources" (plyrInit)="player = $event" (plyrPlay)="played($event)">
+        </plyr> -->
+      </div>
+    </div>
+  </div>
+</div>
